@@ -1,0 +1,70 @@
+Height works for empty tree
+Height works for tree with one node
+Height works for bushy tree
+Height works for right stick
+Height works for left stick
+
+------------------------------------------------------
+Same_Shape works for empty trees
+Same_Shape works for trees with a single equal element
+Same_Shape works for same shape bushy trees
+Same_Shape works for different shaped bushy trees
+Same_Shape works for same shape bushy trees
+Same_Shape works for different shaped bushy trees
+Same_Shape works for same shape bushy trees
+Same_Shape works for same shape right sticks
+Same_Shape works for same shape left sticks
+
+------------------------------------------------------
+Leaf_Count works for empty tree
+Leaf_Count works for tree with one node
+Leaf_Count works for bushy tree
+Leaf_Count works for right stick
+Leaf_Count works for left stick
+Leaf_Count works for V stick
+Leaf_Count works for single child root
+Leaf_Count works for bird claw tree
+
+------------------------------------------------------
+Copy works for empty tree to empty tree
+Copy works for nonempty tree to nonempty tree
+Copy works for nonempty tree to nonempty tree
+Copy works for empty tree to nonempty tree
+Copy works for bushy tree with current element to empty tree
+
+------------------------------------------------------
+Ancestors of an empty tree (list should be empty)
+
+
+Ancestors of tree with just a root (list should be empty)
+
+
+Ancestors of tree with just a root (list should contain 100)
+ 100
+
+Ancestors of tree with just a root (list should contain 100)
+ 100
+
+Ancestors of right stick (list should contain evens 28 thru 20)
+  28  26  24  22  20
+
+Ancestors of right stick (list should contain evens 28 thru 20)
+  28  26  24  22  20
+
+Ancestors of left stick (list should contain evens 22 thru 30)
+  22  24  26  28  30
+
+Ancestors of right stick (list should contain evens 22 thru 30)
+  22  24  26  28  30
+
+Ancestors of a bushy tree (list should 125 150, 100)
+ 125 150 100
+
+Ancestors of a bushy tree (list should 115, 125 150, 100)
+ 115 125 150 100
+
+Ancestors of a bushy tree (list should 65, 75 50, 100)
+  65  75  50 100
+
+------------------------------------------------------
+All done

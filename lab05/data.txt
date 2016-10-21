@@ -1,0 +1,64 @@
+String Terminology
+
+Computers are used extensively to manipulate text.  You use an editor program to
+ enter and modify your Ada programs and you probably use a word processing 
+program to enter, modify, and print essays for your English class.  Each of 
+these applications has its own set of operations for manipulating the text.  For 
+example, while a word processing program wraps the text around to the next line 
+when you reach the end of a line, a program editor does not. 
+
+ 
+We can find many different classes in a typical essay: sections, paragraphs, 
+lines, sentences, words, and characters.  What abstractions can we use to model 
+all of the requirements in these different applications?  From your previous 
+study of Ada, you are familiar with two useful predefined classes:  the 
+character and the string.  The declaration of String given in package Standard 
+is
+
+type String is array (Positive range <>) of Character;
+
+From this declaration we can see that type String is an unconstrained array of 
+characters.  Typically, we declare constrained array subtypes from type String 
+that we then use to declare string objects.  Because the number of characters in 
+an array object is fixed, string objects based on type String are known as 
+fixed-length strings.  As with any array type, the primitive operations of this 
+string type are meager; we can index, slice, and catenate.  Ada 94 provides over 
+20 additional operations for type String in the package Ada.Strings.Fixed. 
+
+Fixed-Length String
+A string that contains a fixed (constant) number of characters.  
+
+In most problems, the number of characters we need to keep together as a unit is 
+not constant.  For example, the number of characters on a line in an Ada program 
+can vary from zero to 80 (the typical width of a display screen) or more.  A 
+string whose length can change is called a varying-length string.  Ada 94 has 
+two predefined varying-length string classes.  Package Ada.Strings.Bounded 
+defines a bounded-length string type.  A bounded-length string object has both a 
+current length, which can change, and a maximum length, which cannot change.  
+Package Ada.Strings.Unbounded defines a unbounded-length string type.  Like the 
+bounded-length string, the length of an unbounded string object can change over 
+the object's lifetime.  Unlike the bounded-length string, there is no maximum 
+size associated with an unbounded-length string object. 
+ 
+Varying-Length String
+A string in which the number of characters can change.
+
+Bounded-Length String
+A varying-length string with a fixed maximum number of characters.  A bounded-
+length string has a current length and a maximum length.
+
+Unbounded-Length String
+A varying-length string with no bound on the number of characters.
+
+Why would we choose to use a bounded-length string when an unbounded-length 
+string type is available?  Generally, unbounded-length strings cannot be 
+implemented to run as efficiently as bounded-length strings; the operations take 
+more time to execute.  Later in this chapter we discuss other problems that a 
+programmer must tackle when using unbounded-length strings.
+
+Now for some fun lines.  The following input lines contain exactly 32 characters.
+
+12345678901234567890123456789012
+123456789 123456789 123456789 12
+
+That's all folks!

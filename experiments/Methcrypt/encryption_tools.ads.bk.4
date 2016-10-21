@@ -1,0 +1,30 @@
+
+
+package Encryption_Tools is
+
+   subtype Upper_Case is Character range 'A' .. 'Z';
+
+   type Encryption_Code is
+      record
+         Right_Shift           : Upper_Case;
+         Right_Shift_Magnitude : Positive;
+         Left_Shift            : Upper_Case;
+         Left_Shift_Magnitude  : Positive;
+      end record;
+
+
+
+   private
+
+      function Prime (N : in Positive) return Positive;   -- Returns Nth prime number
+
+      function Random_Encryption_Code return Encryption_Code;
+
+      function Encrypt_Character (Item : in Character;
+                                          Code : in Encryption_Code) return Positive;
+
+      function Decrypt_Character (Item : in Positive;
+                                          Code : in Encryption_Code) return Character;
+
+end Encryption_Tools;
+      

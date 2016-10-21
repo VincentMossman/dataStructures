@@ -1,0 +1,15 @@
+package Encryption_Tools is
+
+   subtype Upper_Case is Character range 'A' .. 'Z';
+
+   type Encryption_Code is
+      record
+         Right_Shift           : Upper_Case;
+         Right_Shift_Magnitude : Positive;
+         Left_Shift            : Upper_Case;
+         Left_Shift_Magnitude  : Positive;
+      end record;
+
+
+end Encryption_Tools;
+      

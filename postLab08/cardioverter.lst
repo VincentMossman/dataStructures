@@ -1,0 +1,320 @@
+
+GNAT GPL 2013 (20130314)
+Copyright 1992-2013, Free Software Foundation, Inc.
+
+
+Checking: cardioverter.adb (source file time stamp: 2014-03-27 23:48:34)
+
+     1. with Ada.Text_IO;
+     2. with Ada.Integer_Text_IO;
+     3. with Ada.Float_Text_IO;
+     4. with Heart;
+     5. with Ada.Numerics.Elementary_Functions;
+     6. use  Ada.Numerics.Elementary_Functions;
+     7. procedure Cardioverter is
+     8.
+     9.
+    10. -- This program simulates the action of a Cardioverter-Defibrillator, a device that
+    11. --  is implanted in a patient to check and maintain correct heart rhythms.
+    12. --
+    13. -- Written by   Vincent T. Mossman
+    14. -- Date         March 27, 2014
+    15. --
+    16. -- Input
+    17. --       From Keyboard    Patient's last name
+    18. --                        Lower bound of healthy zero crossings
+    19. --                        Upper bound of healthy zero crossings
+    20. --                        Number of readings to use in activity calculations
+    21. --
+    22. --       From Patient     Heart Muscle Activity
+    23. --
+    24. -- Output
+    25. --       Monitor initiation and termination messages.
+    26. --       Number of zero crossings for each heart monitoring cycle.
+    27. --       Statistics (mean and standard deviation of heart activity readings)
+    28. --       Status of heart for each heart monitoring cycle
+    29. --       Sensor failure messages.
+    30. --
+    31. -- Assumptions
+    32. --       1.  Patient's last name contains no more than 60 characters
+    33. --       2.  User enters a valid patient name
+    34. --       3.  User enters valid lower and upper bound values
+    35. --       4.  User enters valid number of readings for calculations
+    36. --       5.  Patient's insurance does not run out in the middle of a
+    37. --            set of heart readings
+    38.
+    39.    -- Types and Subtypes
+    40.    subtype Reading_Range        is Integer range 12 .. 48;
+    41.    subtype Cardiac_Arrest_Range is Integer range 10 .. 30;
+    42.    subtype Fibrillation_Range   is Integer range 70 .. 95;
+    43.    type    Reading_Set          is array (Positive range <>) of Heart.Reading;
+    44.    subtype Name_String          is String (1 .. 60);
+    45.    type    Set_Info_Rec         is
+    46.       record
+    47.          ZCC          : Natural;   -- Zero crossings
+    48.          Average      : Float;     -- Average of heart readings
+    49.          Standard_Dev : Float;     -- Standard deviation of heart readings
+    50.          Sense_Error  : Boolean;   -- Sense error
+    51.       end record;
+    52.
+    53. ------------------------------------------------------------------------------------
+    54.
+    55.    function Average_Of (Values : in Reading_Set) return Float is
+    56.
+    57.    -- Purpose        : Find the average of a group of numbers
+    58.    -- Preconditions  : Values'Length > 0
+    59.    -- Postconditions : The average of Values is returned
+    60.
+    61.       -- Variables
+    62.       Sum : Float;  -- The sum of the Values
+    63.
+    64.    begin   -- Average_Of
+    65.
+    66.       -- Initialize Variables
+    67.       Sum := 0.0;
+    68.
+    69.       -- Sum the numbers in Values
+    70.       -- Each iteration, one value is added to the sum
+    71.       for Index in Values'Range loop
+    72.          Sum := Sum + Float (Values (Index));
+    73.       end loop;
+    74.
+    75.       -- Calculate and return the average
+    76.       return Sum / Float (Values'Length);
+    77.
+    78.    end Average_Of;
+    79.
+    80. ------------------------------------------------------------------------------------
+    81.
+    82.    function Standard_Deviation_Of (Values : in Reading_Set) return Float is
+    83.
+    84.    -- Purpose        : Find the standard deviation of a group of numbers
+    85.    -- Preconditions  : Values'Length > 1
+    86.    -- Postconditions : The standard deviation of Values is returned
+    87.
+    88.       -- Variables
+    89.       Average        : Float; -- The average of Values
+    90.       Sum_Of_Squares : Float; -- Sum of the squared variances of Values
+    91.
+    92.    begin
+    93.
+    94.       -- Initialize Variables
+    95.       Sum_Of_Squares := 0.0;
+    96.       Average := Average_Of (Values);
+    97.
+    98.       -- Sum the squares of the variances in Values
+    99.       -- Each iteration, add one square of a variance to the sum
+   100.       for Index in Values'Range loop
+   101.          Sum_Of_Squares := Sum_Of_Squares + (Float (Values (Index)) - Average) ** 2;
+   102.       end loop;
+   103.
+   104.       -- Calculate and return the standard deviation
+   105.       return Sqrt (Sum_Of_Squares / Float (Values'Length - 1));
+   106.
+   107.    end Standard_Deviation_Of;
+   108.
+   109. ------------------------------------------------------------------------------------
+   110.
+   111.    function ZCC_Of (Initial_Reading : in Heart.Reading;
+   112.                     Set             : in Reading_Set) return Natural is
+   113.
+   114.    -- Purpose        : Determine number of zero crossings in a set of readings
+   115.    -- Preconditions  : None
+   116.    -- Postconditions : Returns number of zero crossings in Set
+   117.
+   118.       -- Use type clause for binary operators
+   119.       use type Heart.Reading;
+   120.
+   121.       -- Variables
+   122.       Last_Reading : Heart.Reading; -- Last reading
+   123.       Result       : Natural;       -- ZCC count
+   124.
+   125.    begin   -- ZCC_Of
+   126.
+   127.       -- Initialize variables
+   128.       Result := 0;
+   129.       Last_Reading := Initial_Reading;
+   130.
+   131.       -- Loop determines number of zero crossings in a set
+   132.       -- Each iteration, determines if one reading crossed zero
+   133.       for Index in Set'Range loop
+   134.          if Last_Reading < 0 and Set (Index) >= 0 then
+   135.             Result := Result + 1;
+   136.          elsif Last_Reading >= 0 and Set (Index) < 0 then
+   137.             Result := Result + 1;
+   138.          end if;
+   139.          Last_Reading := Set (Index);
+   140.       end loop;
+   141.
+   142.       return Result;
+   143.
+   144.    end ZCC_Of;
+   145.
+   146. ------------------------------------------------------------------------------------
+   147.
+   148.    procedure Process_Set_Info (ZCC_Min  : in Positive;
+   149.                                ZCC_Max  : in Positive;
+   150.                                Set_Info : in Set_Info_Rec) is
+   151.
+   152.    -- Purpose        : Process set information
+   153.    -- Preconditions  : None
+   154.    -- Postconditions : Shock is applied, if necessary
+   155.    --                  Set information is displayed on screen
+   156.
+   157.    begin   -- Process_Set_Info
+   158.
+   159.       -- Determine if this set contains a sensor error
+   160.       if not Set_Info.Sense_Error then
+   161.
+   162.          -- Display set information
+   163.          Ada.Integer_Text_IO.Put (Item  => Set_Info.ZCC,
+   164.                                   Width => 5);
+   165.          Ada.Float_Text_IO.Put (Item => Set_Info.Average,
+   166.                                 Fore => 5,
+   167.                                 Aft  => 1,
+   168.                                 Exp  => 0);
+   169.          Ada.Float_Text_IO.Put (Item => Set_Info.Standard_Dev,
+   170.                                 Fore => 4,
+   171.                                 Aft  => 2,
+   172.                                 Exp  => 0);
+   173.
+   174.          -- Determine if shock application is necessary
+   175.          if Set_Info.ZCC < ZCC_Min then
+   176.             Ada.Text_IO.Put ("   Cardiac Arrest!");
+   177.             Heart.Shock;
+   178.          elsif Set_Info.ZCC > ZCC_Max then
+   179.             Ada.Text_IO.Put ("   Fibrillation!");
+   180.             Heart.Shock;
+   181.          else
+   182.             Ada.Text_IO.Put ("   Normal Heart Rhythm");
+   183.          end if;
+   184.
+   185.          Ada.Text_IO.New_Line;
+   186.
+   187.       else
+   188.          Ada.Text_IO.New_Line;
+   189.          Ada.Text_IO.Put_Line ("Sensor Failure!");
+   190.          Ada.Text_IO.New_Line;
+   191.       end if;
+   192.
+   193.    end Process_Set_Info;
+   194.
+   195. ------------------------------------------------------------------------------------
+   196.
+   197.    procedure Get_Set_Info (Set_Size        : in     Reading_Range;
+   198.                            Initial_Reading : in out Heart.Reading;
+   199.                            Set_Info        :    out Set_Info_Rec) is
+   200.
+   201.    -- Purpose        : Retrieve set information
+   202.    -- Preconditions  : None
+   203.    -- Postconditions : Returns necessary set information
+   204.
+   205.       -- Variables
+   206.       Heart_Readings : Reading_Set (1 .. Set_Size); -- Set of heart readings
+   207.
+   208.    begin   -- Get_Set_Info
+   209.
+   210.       -- Loop fills Heart_Readings with heart readings
+   211.       -- Each iteration, fills with one reading
+   212.       for Index in Heart_Readings'Range loop
+   213.          Heart_Readings (Index) := Heart.Sense;
+   214.       end loop;
+   215.
+   216.       -- Calculate readings
+   217.       Set_Info.ZCC := ZCC_Of (Initial_Reading => Initial_Reading,
+   218.                               Set             => Heart_Readings);
+   219.       Set_Info.Average := Average_Of (Heart_Readings);
+   220.       Set_Info.Standard_Dev := Standard_Deviation_Of (Heart_Readings);
+   221.
+   222.       -- Prepare for next reading process
+   223.       Set_Info.Sense_Error := False;
+   224.       Initial_Reading := Heart_Readings (Heart_Readings'Last);
+   225.
+   226.    exception
+   227.       when Heart.SENSE_ERROR =>
+   228.          Set_Info.Sense_Error := True;
+   229.          Initial_Reading := 0;
+   230.
+   231.    end Get_Set_Info;
+   232.
+   233. ------------------------------------------------------------------------------------
+   234.
+   235.    function To_Num (Base       : in Reading_Range;
+   236.                     Percentage : in Positive) return Positive is
+   237.
+   238.    -- Purpose        : Return a percentage of a whole number (as a whole number)
+   239.    -- Preconditions  : None
+   240.    -- Postconditions : Percentage of Whole is returned
+   241.
+   242.    begin   -- To_Num
+   243.
+   244.       return Positive (Float (Base) * (Float (Percentage) / 100.0));
+   245.
+   246.    end To_Num;
+   247.
+   248. ------------------------------------------------------------------------------------
+   249.
+   250.    -- Patient data source
+   251.    Patient_Name : Name_String; -- The patient's last name
+   252.    Length       : Positive;    -- Number of characters in Name
+   253.
+   254.    -- Reading and Set Variables
+   255.    Lower_Bound     : Cardiac_Arrest_Range; -- Lower bound of healthy zero crossings (percentage)
+   256.    Upper_Bound     : Fibrillation_Range;   -- Upper bound of healthy zero crossings (percentage)
+   257.    ZCC_Min         : Positive;      -- Lower bound of healthy zero crossings (whole number)
+   258.    ZCC_Max         : Positive;      -- Upper bound of healthy zero crossings (whole number)
+   259.    Num_Readings    : Reading_Range; -- Number of readings used in activity calculations
+   260.    Initial_Reading : Heart.Reading; -- Initial activity reading
+   261.    Set_Info        : Set_Info_Rec;  -- Record containing set information
+   262.
+   263. begin   -- Cardioverter
+   264.
+   265.    -- Prepare the patient
+   266.    Ada.Text_IO.Put_Line ("Enter the patient's name");
+   267.    Ada.Text_IO.Get_Line (Item => Patient_Name, Last => Length);
+   268.    Heart.Initialize (Patient_Name (1 .. Length));
+   269.
+   270.    -- Set up the parameters of the Cardioverter-Defibrillator
+   271.    Ada.Text_IO.Put_Line ("Enter the lower bound (percent)");
+   272.    Ada.Integer_Text_IO.Get (Lower_Bound);
+   273.    Ada.Text_IO.Put_Line ("Enter the upper bound (percent)");
+   274.    Ada.Integer_Text_IO.Get (Upper_Bound);
+   275.    Ada.Text_IO.Put_Line ("Enter number of readings used in a calculation");
+   276.    Ada.Integer_Text_IO.Get (Num_Readings);
+   277.    Initial_Reading := 0;
+   278.
+   279.    -- Convert percentages into a number of readings (rounded to nearest reading)
+   280.    ZCC_Min := To_Num (Base       => Num_Readings,
+   281.                       Percentage => Lower_Bound);
+   282.    ZCC_Max := To_Num (Base       => Num_Readings,
+   283.                       Percentage => Upper_Bound);
+   284.
+   285.    Ada.Text_IO.New_Line;
+   286.    Ada.Text_IO.Put_Line ("Beginning patient heart monitoring");
+   287.    Ada.Text_IO.New_Line;
+   288.
+   289.    -- Loop gets and processes heart readings
+   290.    -- Each iteration, gets and processes one set of readings
+   291.    Monitor_Cycle :
+   292.    loop
+   293.       exit Monitor_Cycle when not Heart.Insured;
+   294.
+   295.       -- Retrieve information for one set of readings
+   296.       Get_Set_Info (Set_Size        => Num_Readings,
+   297.                     Initial_Reading => Initial_Reading,
+   298.                     Set_Info        => Set_Info);
+   299.
+   300.       -- Process results of set reading
+   301.       Process_Set_Info (ZCC_Min  => ZCC_Min,
+   302.                         ZCC_Max  => ZCC_Max,
+   303.                         Set_Info => Set_Info);
+   304.
+   305.    end loop Monitor_Cycle;
+   306.
+   307.    Ada.Text_IO.New_Line (2);
+   308.    Ada.Text_IO.Put_Line ("Insurance terminated!");
+   309.    Ada.Text_IO.Put_Line ("Patient's Cardioverter-Defibrillator removed.");
+   310.
+   311. end Cardioverter;
+
+ 311 lines: No errors

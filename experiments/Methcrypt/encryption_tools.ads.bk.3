@@ -1,0 +1,34 @@
+
+
+package Encryption_Tools is
+
+   type Phrase is String (1 .. 50);        -- For testing, will likely be
+   type Length is Integer range 0 .. 50;   -- removed later
+
+   subtype Upper_Case is Character range 'A' .. 'Z';
+
+   type Encryption_Code is
+      record
+         Right_Shift           : Upper_Case;
+         Right_Shift_Magnitude : Positive;
+         Left_Shift            : Upper_Case;
+         Left_Shift_Magnitude  : Positive;
+      end record;
+
+   function Encrypt_Phrase (Item : in Phrase;
+                            Last : in Length) return String;
+
+   private
+
+      function Prime (N : in Positive) return Positive;   -- Returns Nth prime number
+
+      function Random_Encryption_Code return Encryption_Code;
+
+      function Encrypt_Character (Item : in Character;
+                                          Code : in Encryption_Code) return Positive;
+
+      function Decrypt_Character (Item : in Positive;
+                                          Code : in Encryption_Code) return Character;
+
+end Encryption_Tools;
+      

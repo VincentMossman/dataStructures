@@ -1,0 +1,138 @@
+with Ada.Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Strings.Unbounded;    use Ada.Strings.Unbounded;
+with Ada.Text_IO.Unbounded_IO; use Ada.Text_IO.Unbounded_IO;
+procedure Hash_Table_Fun is
+
+
+   Table_Size : constant := 4 * 25 + 3;
+   subtype Index_Range is Integer range 0 .. Table_Size - 1;
+
+   type Element_Array is array (Natural range <>) of Unbounded_String;
+   type Status_Array  is array (Natural range <>) of Boolean;
+
+   type Hash_Table is
+      record
+         Info   : Element_Array (Index_Range);
+         In_Use : Status_Array  (Index_Range) := (Index_Range => False);
+      end record;
+
+   -- Raised when an element can't be inserted into the hash table
+   OVERFLOW : exception;
+
+   ----------------------------------------------------------------------------
+   function Hash (Item : in Unbounded_String) return Index_Range is
+      Average : Float;
+      Relative_Location : Float;
+      Index : Positive;
+   begin
+      Average := 0.0;
+      Index := 1;
+      loop
+         Average := Average + Float (Character'Pos (Element (Item, Index)));
+         exit when Index = Length (Item);
+         Index := Index + 1;
+      end loop;
+      Average := Average / Float (Index);
+      Relative_Location := (Average / 100.0) * (Float (Length (Item)));
+      return Index_Range (Relative_Location);
+   end Hash;
+
+   ----------------------------------------------------------------------------
+   procedure Insert (Table : in out Hash_Table;
+                     Item  : in     Unbounded_String;
+                     Clash :    out Boolean) is
+      Index       : Index_Range;
+      Probe_Count : Natural;
+   begin
+      Index := Hash (Item);  -- Use hash function to determine location
+
+      if Table.In_Use (Index) then  -- Have a clash, probe for a spot
+         Clash       := True;
+         Probe_Count := 1;
+
+         Probe_Loop :  -- Use quadratic probing to find a spot for the item
+         loop          -- Each iteration, check one location
+            Index := (Index + Probe_Count ** 2) rem Table_Size;
+            exit Probe_Loop when not Table.In_Use (Index) or
+                                 Probe_Count > Table_Size;
+            Probe_Count := Probe_Count + 1;
+         end loop Probe_Loop;
+      else
+         Clash := False;
+      end if;
+
+      if  Table.In_Use (Index)  then
+         -- We exited the loop because we could not find an open slot
+         raise OVERFLOW;
+      else
+         Table.Info (Index)  := Item;
+         Table.In_Use (Index) := True;
+      end if;
+   end Insert;
+
+-------------------------------------------------------------------------------
+   Name_File   : Ada.Text_IO.File_Type;
+   Name        : Unbounded_String;  -- One name
+   Name_Count  : Natural;           -- Count of names in file
+   Clash_Count : Natural;           -- Count of clashes
+   Hash_Clash  : Boolean;           -- True if we had a clash inserting into the table
+
+   Name_Table  : Hash_Table;        -- "List" of names
+
+   Load_Factor : Float;             -- Fraction of hash table that is filled
+
+begin
+   Ada.Text_IO.Open (File => Name_File,
+                     Mode => Ada.Text_IO.In_File,
+                     Name => "Names.txt");
+   Name_Count  := 0;
+   Clash_Count := 0;
+
+   Input_Loop :  -- Process all of the names in the input file
+   loop          -- Each iteration, one name is put into the hash table
+      exit Input_Loop when Ada.Text_IO.End_Of_File (Name_File);
+      Get_Line (File => Name_File,
+                Item => Name);
+      Put (Name);
+      Name_Count := Name_Count + 1;
+
+      Insert (Table => Name_Table,
+              Item  => Name,
+              Clash => Hash_Clash);
+
+      Ada.Text_IO.Set_Col (To => 25);
+      if Hash_Clash then
+         Clash_Count := Clash_Count + 1;
+         Ada.Text_IO.Put_Line (" Clashed.");
+      else
+         Ada.Text_IO.Put_Line (" Did not clash.");
+      end if;
+   end loop Input_Loop;
+   Ada.Text_IO.New_Line;
+
+   Ada.Text_IO.Put_Line ("Hashing statistics");
+
+   Ada.Integer_Text_IO.Put (Item => Name_Count, Width => 9);
+   Ada.Text_IO.Put_Line (" names hashed");
+
+   Ada.Integer_Text_IO.Put (Item => Clash_Count, Width => 9);
+   Ada.Text_IO.Put_Line (" names clashed");
+
+   Load_Factor := Float (Name_Count) / Float (Table_Size);
+   Ada.Float_Text_IO.Put (Item => Load_Factor,
+                          Fore => 5, Aft => 3, Exp => 0);
+   Ada.Text_IO.Put_Line (" load factor");
+
+   Ada.Float_Text_IO.Put (Item => Load_Factor / 1.05 ** Clash_Count,
+                          Fore => 5, Aft => 3, Exp => 0);
+   Ada.Text_IO.Put_Line (" hash table rating (1.000 = perfect minimal, 0.000 = horrible)");
+
+exception
+   when OVERFLOW =>
+      Ada.Text_IO.Set_Col (To => 25);
+      Ada.Text_IO.Put_Line ("Failure to insert.");
+      Ada.Text_IO.Put_Line ("Program terminated due to OVERFLOW!");
+
+end Hash_Table_Fun;

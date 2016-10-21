@@ -1,0 +1,97 @@
+
+GNAT GPL 2013 (20130314)
+Copyright 1992-2013, Free Software Foundation, Inc.
+
+
+Checking: integrate.adb (source file time stamp: 2014-04-11 14:08:22)
+
+     1. -- Written by   Vincent T. Mossman
+     2. -- Date         April 11, 2014
+     3.
+     4. function Integrate (F       : not null access function (X : in Real) return Real;
+     5.                     A       : in  Real;
+     6.                     B       : in  Real;
+     7.                     Epsilon : in  Real) return Real is
+     8.
+     9.    -- Variables
+    10.    Total_Area     : Real;   -- Total estimated area
+    11.    Left_Area      : Real;   -- Estimated area of left half of curve
+    12.    Right_Area     : Real;   -- Estimated area of right half of curve
+    13.    Error_Estimate : Real;   -- Error estimate
+    14.
+    15. -------------------------------------------------------------------------------------
+    16.
+    17.    function Integrate (A       : in Real;
+    18.                        B       : in Real;
+    19.                        Epsilon : in Real) return Real is
+    20.
+    21.    begin   -- Integrate
+    22.
+    23.       -- Calculate Total_Area
+    24.       Total_Area := 0.5 * (F (A) + F (B)) * (B - A);
+    25.
+    26.       -- Calculate Left_Area and Right_Area
+    27.       Left_Area  := 0.5 * (F (A) + F ((A + B) / 2.0)) * ((A + B) / 2.0 - A);
+    28.       Right_Area := 0.5 * (F ((A + B) / 2.0) + F (B)) * (B - (A + B) / 2.0);
+    29.
+    30.       -- Calculate Error_Estimate
+    31.       Error_Estimate := (Total_Area - (Left_Area + Right_Area)) / 3.0;
+    32.
+    33.       if not (abs Error_Estimate < Epsilon) then
+    34.          return Integrate (A       => A,
+    35.                            B       => (A + B) / 2.0,
+    36.                            Epsilon => Epsilon / 2.0) +
+    37.                 Integrate (A       => (A + B) / 2.0,
+    38.                            B       => B,
+    39.                            Epsilon => Epsilon / 2.0);
+    40.       else
+    41.          return Left_Area + Right_Area;
+    42.       end if;
+    43.
+    44.    end Integrate;
+    45.
+    46. -------------------------------------------------------------------------------------
+    47.
+    48. begin   -- Integrate
+    49.
+    50.    return Integrate (A       => A,
+    51.                      B       => B,
+    52.                      Epsilon => Epsilon);
+    53.
+    54. end Integrate;
+    55.
+
+Checking: integrate.ads (source file time stamp: 2005-12-21 22:04:00)
+
+     1. -- Integrate is a generic subprogram for integrating a mathematical
+     2. -- function.  It uses an adaptive trapezoidal rule method for integration.
+     3. --
+     4. -- It is adaptive in that the number of trapezoids used in a
+     5. -- particular region of the function is determined dynamically
+     6. -- to meet the given error criteria. 
+     7.
+     8.
+     9. generic
+    10.    -- The floating point type used in the calculations
+    11.    type Real is digits <>;
+    12. function Integrate (F : not null access function (X : in Real) return Real;
+    13.                     A       : in  Real;
+    14.                     B       : in  Real;
+    15.                     Epsilon : in  Real) return Real;
+    16.
+    17. -- Determine an approximation of the integral of the function F in the 
+    18. -- interval A to B
+    19. --
+    20. -- Parameters  A        - The left endpoint of integration interval
+    21. --             B        - The right endpoint of the integration interval
+    22. --             Epsilon  - The maximum allowed absolute value of the error
+    23. --
+    24. -- Preconditions  : None
+    25. --
+    26. -- Postconditions : An approximation of the definate integral is returned
+    27. --
+    28. -- Exceptions     : STORAGE_ERROR raised if there is not enough memory to approximate
+    29. --                                the integral to the given error tolerance
+    30. --                                  
+
+ 55 lines: No errors

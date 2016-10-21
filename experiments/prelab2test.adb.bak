@@ -1,0 +1,32 @@
+with ada.Text_IO;
+with ada.Integer_Text_IO;
+
+procedure prelab2test is
+
+   type Color_Type is (Red, Green, Blue);
+   type Color_Array is array (1 .. 5) of Color_Type;
+   A : constant Color_Array := (Blue, Green, Green, Red, Green);
+   B : constant Color_Array := (Green, Green, Blue, Red, Red);
+
+begin
+
+   if A < B then
+      ada.Text_IO.put ("A < B is True");
+   else
+      ada.Text_IO.Put ("A < B is False");
+   end if;
+
+   if A (2 .. 3) < B (1 .. 3) then
+      ada.Text_IO.put ("A (2 .. 3) < B (1 .. 3) is True");
+   else
+      ada.Text_IO.Put ("A (2 .. 3) < B (1 .. 3) is False");
+   end if;
+
+   if A (2 .. 4) < B (1 .. 3) then
+      ada.Text_IO.put ("A (2 .. 4) < B (1 .. 3) is True");
+   else
+      ada.Text_IO.Put ("A (2 .. 4) < B (1 .. 3) is False");
+   end if;
+
+end prelab2test;
+

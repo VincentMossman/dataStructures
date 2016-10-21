@@ -1,0 +1,67 @@
+V "GNAT Lib v2013"
+M P W=b
+A -gnatwu
+A -gnat05
+A -mtune=generic
+A -march=pentiumpro
+P ZX
+
+RN
+RV NO_IO
+RV SPARK
+
+U prime_fun%b		prime_fun.adb		f2c838e5 NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W prime_tools%s		prime_tools.adb		prime_tools.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-except.ads		20130417131018 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-inteio.ads		20130417131020 f64b89a4
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131020 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-tiinio.ads		20130417131022 aa04e5d6
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131026 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D prime_fun.adb		20140429045920 c43185c8
+D prime_tools.ads	20140316201640 f8dfc15d
+D system.ads		20130417131036 5fc8ae56
+D s-crtl.ads		20130417131028 dfcfca61
+D s-exctab.ads		20130417131028 66e51330
+D s-ficobl.ads		20130417131028 55a71d43
+D s-finmas.ads		20130417131028 b95bb341
+D s-finroo.ads		20130417131028 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131032 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 13|2r6 3r6 24r7 25r7 26r7 27r7 28r7 29r7 46r7 55r13
+X 4 a-inteio.ads
+18K13*Integer_Text_IO[9|45] 13|2w10 46r11
+X 8 a-textio.ads
+49K13*Text_IO 471e16 13|3w10 24r11 25r11 26r11 27r11 28r11 29r11 55r17
+263U14*Put_Line 13|24s19 25s19 26s19 27s19 28s19 29s19 55s25
+X 9 a-tiinio.ads
+55U14*Get 13|46s27[4|18]
+X 13 prime_fun.adb
+5U11*Prime_Fun 5b11 60l5 60t14
+11U14 Prime_Pair_Experiment 11b14 14l8 14t29 51s13
+20U14 Display_Menu 20b14 31l8 31t20 43s7
+35i4 User_Menu_Choice{integer} 46m32 49r12
+39l4 Prime_Fun_Loop 53r18 58l13 58e27
+X 14 prime_tools.ads
+1K9*Prime_Tools 13|1w6 1r23 14|78e16
+

@@ -1,0 +1,78 @@
+with Ada.Containers.Vectors;
+with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Integer_Text_IO;   use Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;     use Ada.Float_Text_IO;
+procedure Vector_Explore is
+
+   subtype Index_Type is Integer range 1 .. 1_000_000;
+   package Big_Vector is new Ada.Containers.Vectors (Index_Type   => Index_Type,
+                                                     Element_Type => Float,
+                                                     "="          => Standard."=");
+   procedure Display_Stats (Item : in Big_Vector.Vector) is
+   begin
+      Put ("Length is");
+      Put (Item  => Integer (Item.Length), -- Convert Count_Type to Integer
+           Width => 3);
+      Put ("    Capacity is");
+      Put (Item  => Integer (Item.Capacity),
+           Width => 4);
+      New_Line;
+   end Display_Stats;
+
+
+   My_Vector : Big_Vector.Vector;
+
+begin
+
+   -- Display characteristics of initial vector
+   Put_Line ("Initial vector stats");
+   Display_Stats (My_Vector);
+   New_Line;
+
+   -- Add thirty five elements to the vector and display the stats
+   Put_Line ("Vector stats after each addition of 35 elements");
+   for Index in 1 .. 35 loop
+      My_Vector.Append (Float (Index));
+      Display_Stats (My_Vector);
+   end loop;
+   New_Line;
+
+   -- Increase the length of the vector to 45 elements
+   Put_Line ("Manually increasing the length of the vector to 45");
+   My_Vector.Set_Length (45);
+   Display_Stats (My_Vector);
+   New_Line;
+
+   -- Set the capacity of the vector to 100 elements
+   Put_Line ("Manually increasing the capacity of the vector to 100");
+   My_Vector.Reserve_Capacity (100);
+   Display_Stats (My_Vector);
+   New_Line;
+
+   Put_Line ("Press Enter to continue");
+   Skip_Line;
+
+   -- Put your code to set the value of the last ten components here
+   for Index in My_Vector.Last_Index - 10 .. My_Vector.Last_Index loop
+      My_Vector.Replace_Element (Container => My_Vector;            Index => Index;            New_Item => Float (Index));
+
+   end loop;
+
+
+
+
+   -- Display all 30 elements
+   for Index in My_Vector.First_Index .. My_Vector.Last_Index loop
+      Put (Item => Index,
+           Width => 4);
+      Put (' ');
+      Put (Item => My_Vector.Element (Index),
+           Fore => 4,
+           Aft  => 2,
+           Exp  => 0);
+      New_Line;
+   end loop;
+   New_Line;
+
+end Vector_Explore;
+                                                    

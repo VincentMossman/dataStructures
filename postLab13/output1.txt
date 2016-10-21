@@ -1,0 +1,142 @@
+Intial tree characteristics
+----------------------------------------------------
+
+The initial tree is empty
+
+Current is not defined
+
+
+The records in the tree are
+
+
+
+
+
+Testing Insert, Clear, Height, and Inorder Traversal
+----------------------------------------------------
+
+
+The keys in the tree are
+
+
+Height works for empty tree
+-----------------------
+
+The keys in the tree are
+ 100
+
+Height works for tree with one node
+-----------------------
+
+The keys in the tree are
+  15  25  35  50  65  75  85 100 115 125 135 150 165 175 185
+
+Height works for bushy tree
+-----------------------
+
+The keys in the tree are
+   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20
+  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60
+  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80
+  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100
+
+Height works for right stick
+-----------------------
+
+The keys in the tree are
+   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20
+  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60
+  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80
+  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100
+
+Height works for left stick
+-----------------------
+
+
+
+
+Testing Find, Retrieve, and Modify
+----------------------------------------------------
+
+Original Data
+-----------------------
+
+The records in the tree are
+  15 A
+  25 A
+  35 A
+  50 A
+  65 A
+  75 A
+  85 A
+ 100 A
+ 115 A
+ 125 A
+ 135 A
+ 150 A
+ 165 A
+ 175 A
+ 185 A
+
+
+
+Modified Data
+-----------------------
+ 100 B
+  50 C
+ 150 D
+  25 E
+  75 F
+ 125 G
+ 175 H
+  15 I
+  35 J
+  65 K
+  85 L
+ 115 M
+ 135 N
+ 165 O
+ 185 P
+
+
+The records in the tree are
+  15 I
+  25 E
+  35 J
+  50 C
+  65 K
+  75 F
+  85 L
+ 100 B
+ 115 M
+ 125 G
+ 135 N
+ 150 D
+ 165 O
+ 175 H
+ 185 P
+
+
+
+
+
+Testing exceptions
+----------------------------------------------------
+
+Successfull raising of Current_Undefined
+Successfull raising of Current_Undefined
+Successfull raising of Duplicate_Key
+Successfull raising of Key_Error
+Successfull raising of Key_Error
+
+
+
+Set up for next test run and close the tree
+----------------------------------------------------
+
+
+
+Normal termination of program Test_File_Tree1
+----------------------------------------------------

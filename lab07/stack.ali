@@ -1,0 +1,75 @@
+V "GNAT Lib v2013"
+A -fstack-check=specific
+A -gnatwu
+A -g
+A -gnato
+A -gnatwa
+A -gnat05
+A -gnatwc
+A -gnatwd
+A -gnatwf
+A -gnatwg
+A -gnatwk
+A -gnatwm
+A -gnatwr
+A -gnatwu
+A -gnatwv
+A -gnatww
+A -gnatwz
+A -gnaty3
+A -gnatya
+A -gnatyA
+A -gnatye
+A -gnatyi
+A -gnatyk
+A -gnatyl
+A -gnatyM110
+A -gnatyr
+A -gnatyt
+A -gnatyx
+A -g
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV SPARK
+
+U stack%b		stack.adb		5b340b01 NE OO PK GE
+
+U stack%s		stack.ads		b4e2e1ee BN EE NE OO PK GE
+
+D stack.ads		20140227173658 b4e2e1ee
+D stack.adb		20140227173658 efd6eaef
+D system.ads		20130417131036 5fc8ae56
+X 1 stack.ads
+2+9 Element_Type 23r59 59r41 67r43 77r53 2|12r59 47r41 59r43
+3k9*Stack 2z9 84l5 84e10 2|1b14 68l5 68t10
+9R9*Stack_Type 9d21 16p13 16r30 22p13 22r37 39p14 39r36 45p13 45r31 51p13
+. 51r30 58p14 58r41 66p14 66r43 78c9 82e17 2|4r30 11r37 28r36 34r31 40r30
+. 46r41 58r43
+9i21 Max_Size{natural} 78r21 81r39 2|42r32
+11X4*UNDERFLOW 2|17r16 65r16
+12X4*OVERFLOW 2|53r16
+13X4*STACK_CONSTRAINT_ERROR 2|19r16
+16V13*Size{natural} 16>19 2|4b13 8l8 8t12
+16r19 Stack{9R9} 2|4b19 7r14
+22V13*Value_At{2+9} 22>23 23>23 2|11b13 24l8 24t16
+22r23 Stack{9R9} 2|11b23 16r10 18r24 21r17 21r33
+23i23 Position{positive} 2|12b23 18r13 21r45
+39U14*Clear 39=21 2|28b14 31l8 31t13
+39r21 Stack{9R9} 2|28b21 30m7
+45V13*Empty{boolean} 45>20 2|34b13 37l8 37t13 61s14
+45r20 Stack{9R9} 2|34b20 36r14
+51V13*Full{boolean} 51>19 2|40b13 43l8 43t12 49s14
+51r19 Stack{9R9} 2|40b19 42r14 42r26
+58U14*Push 58=20 59>20 2|46b14 55l8 55t12
+58r20 Stack{9R9} 2|46b20 49r20 50m10 50r23 51m10 51r26
+59*20 New_Element{2+9} 2|47b20 51r40
+66U14*Pop 66=19 67<19 2|58b14 67l8 67t11
+66r19 Stack{9R9} 2|58b19 61r21 62r28 62r44 63m10 63r23
+67*19 Popped_Element{2+9} 2|59b19 62m10
+77A9 Stack_Array(2+9)<integer> 81r21
+80i10 Top{natural} 2|7r20 16r16 18r30 21r39 30m13 36r20 42r20 50m16 50r29
+. 51r32 62r50 63m16 63r29
+81a10 Elements{77A9} 2|21r23 51m16 62r34
+

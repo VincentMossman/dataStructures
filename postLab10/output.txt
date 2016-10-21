@@ -1,0 +1,180 @@
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = 0.0000, B = 0.3000, and Epsilon = 0.0001000
+
+  Result for f(1) is
+  3.000000000000000E-001
+
+  Result for f(x) is
+  4.500000000000000E-002
+
+  Result for f(e to the -x squared power) is
+  2.911736133733581E-001
+
+  Result for f((1/3 - x) to the 1/3 power) is
+  1.652293694339528E-001
+
+  Result for f(4/(1 + x squared)) is
+  1.165767994099282E+000
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+ -1.030482613973431E-001
+
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = 0.0000, B = 1.0000, and Epsilon = 0.0001000
+
+  Result for f(1) is
+  1.000000000000000E+000
+
+  Result for f(x) is
+  5.000000000000000E-001
+
+  Result for f(e to the -x squared power) is
+  7.468018727194468E-001
+
+  Result for f((1/3 - x) to the 1/3 power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(4/(1 + x squared)) is
+  3.141576784033322E+000
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+  3.896341927327484E-002
+
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = 0.0000, B = 1.0000, and Epsilon = 0.0000010
+
+  Result for f(1) is
+  1.000000000000000E+000
+
+  Result for f(x) is
+  5.000000000000000E-001
+
+  Result for f(e to the -x squared power) is
+  7.468239378045606E-001
+
+  Result for f((1/3 - x) to the 1/3 power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(4/(1 + x squared)) is
+  3.141592580901692E+000
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+  3.896215138117191E-002
+
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = 0.0000, B = 1.0000, and Epsilon = 0.0000000
+
+  Result for f(1) is
+  1.000000000000000E+000
+
+  Result for f(x) is
+  5.000000000000000E-001
+
+  Result for f(e to the -x squared power) is
+  7.468241293429346E-001
+
+  Result for f((1/3 - x) to the 1/3 power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(4/(1 + x squared)) is
+  3.141592652856361E+000
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+  3.896220156289196E-002
+
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = -1.0000, B = 1.0000, and Epsilon = 0.0000100
+
+  Result for f(1) is
+  2.000000000000000E+000
+
+  Result for f(x) is
+  0.000000000000000E+000
+
+  Result for f(e to the -x squared power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f((1/3 - x) to the 1/3 power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(4/(1 + x squared)) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+ -8.414683446831757E-001
+
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = 0.0000, B = 10.0000, and Epsilon = 0.0000100
+
+  Result for f(1) is
+  1.000000000000000E+001
+
+  Result for f(x) is
+  5.000000000000000E+001
+
+  Result for f(e to the -x squared power) is
+  8.862280155625554E-001
+
+  Result for f((1/3 - x) to the 1/3 power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(4/(1 + x squared)) is
+  5.884515522280053E+000
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+  2.111080806954762E+000
+
+Enter A and B   (B < A to terminate program)
+Enter Epsilon
+
+For A = 0.0000, B = 100.0000, and Epsilon = 0.0000100
+
+  Result for f(1) is
+  1.000000000000000E+002
+
+  Result for f(x) is
+  5.000000000000000E+003
+
+  Result for f(e to the -x squared power) is
+  8.862270612277829E-001
+
+  Result for f((1/3 - x) to the 1/3 power) is
+Unexpected exception ADA.NUMERICS.ARGUMENT_ERROR
+a-ngelfu.adb:91 instantiated at test_integrate.adb:15
+
+
+  Result for f(4/(1 + x squared)) is
+  6.243192032587160E+000
+
+  Result for f(sin(x) - 0.5 cos(x)) is
+  3.908639281633342E-001
+
+Enter A and B   (B < A to terminate program)
+
+All Done

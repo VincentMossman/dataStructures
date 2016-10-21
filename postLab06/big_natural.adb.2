@@ -1,0 +1,542 @@
+with Ada.Unchecked_Deallocation;
+package body Big_Natural is
+
+-- Written by   Vincent T. Mossman
+-- Date         February 28, 2014
+
+   procedure Recycle is new Ada.Unchecked_Deallocation (Object => Digit_Array,
+                                                        Name   => Number_Ptr);
+
+   ----------------------------------------------------------------------------
+   -- Local (helper) operations
+   ----------------------------------------------------------------------------
+
+   ----------------------------------------------------------------------------
+
+   procedure Remove_Leading_Zeros (Item : in out Number_Ptr) is
+   -- Removes any leading zeros from Item
+   -- Preconditions  : Item in not null
+   -- Postconditions : Item designates any array of digits with no leading zeros
+
+      -- Variables
+      Index     : Integer;    -- For searching for the first non-zero
+      Item_Copy : Number_Ptr; -- For recycling the original Item
+      New_Last  : Natural;    -- The last index of the revised Item
+
+   begin
+
+      -- Initialize Variable
+      Index := Item.all'Last;
+
+      -- Find the Index of first non-zero in Item
+      -- Each iteration, checks one value for non-zero
+      loop
+         exit when Index < Item.all'First or else Item.all (Index) /= 0;
+         Index := Index - 1;
+      end loop;
+
+      if Index < Item.all'First then
+         -- If Item is all zeros make it array of one zero
+         Item_Copy := Item;
+         Item := new Digit_Array'(1 .. 1 => 0);
+
+         -- Recycle the old string memory
+         Recycle (Item_Copy);
+
+      elsif Index < Item.all'Last then   -- No change needed when Index is last in array
+
+         -- Setup alias for recycling and fill in both last index values
+         Item_Copy := Item;
+         New_Last   := Index;
+
+         -- Get memory for new shorter string and copy the value into it
+         Item := new Digit_Array (0 .. New_Last);
+         Item.all := Item_Copy.all (0 .. New_Last);
+
+         -- Recycle the old string memory
+         Recycle (Item_Copy);
+
+      end if;
+
+   end Remove_Leading_Zeros;
+
+   ----------------------------------------------------------------------------
+
+   function "*" (Left : in Big_Natural; Right : in Digit) return Big_Natural is
+   -- Returns the product of a big natural and a single digit.  Written
+   -- as a helper function for the multiplication of two big natural numbers
+   -- Preconditions  : Left has at least one digit
+   -- Postconditions : The product of Left and Right is returned
+
+      Result : Big_Natural;
+      Carry  : Natural;
+
+   begin
+
+      -- Initialize variables
+      Carry := 0;
+      Result.Reference := new Digit_Array'(0 .. Left.Reference.all'Last + 1 => 0);
+
+      -- Loop determines product of a Big_Natural and a Digit
+      -- Each iteration, determines one place and a carry
+      for Index in Left.Reference.all'Range loop
+         Result.Reference.all (Index) := (Left.Reference.all (Index) * Right + Carry) rem 10;
+         Carry := (Left.Reference.all (Index) * Right + Carry) / 10;
+      end loop;
+
+      Result.Reference.all (Result.Reference.all'Last) := Carry;
+
+      Remove_Leading_Zeros (Result.Reference);
+
+      return Result;
+   end "*";
+
+   ----------------------------------------------------------------------------
+   -- Bodies of operations in specification
+   ----------------------------------------------------------------------------
+
+   ----------------------------------------------------------------------------
+
+   function To_Big_Natural (Item : in Natural) return Big_Natural is
+
+      -- Variables
+      Result     : Big_Natural;
+      Num_Digits : Natural;
+      Item_Copy  : Natural;
+
+   begin
+
+      -- Initialize Variables
+      Item_Copy  := Item;
+      Num_Digits := 0;
+
+      -- Loop determines the number of digits in Item
+      -- Each iteration, adds one to number of digits
+      loop
+         Num_Digits := Num_Digits + 1;
+         exit when Item_Copy < 10;
+         Item_Copy := Item_Copy / 10;
+      end loop;
+
+      Result.Reference := new Digit_Array (0 .. Num_Digits - 1);
+
+      Item_Copy := Item;
+
+      -- Loop converts Item to a big natural
+      -- Each iteration, determines one place of Big Natural
+      for Index in Result.Reference.all'Range loop
+         Result.Reference.all (Index) := Item_Copy rem 10;
+         Item_Copy := Item_Copy / 10;
+      end loop;
+
+      return Result;
+   end To_Big_Natural;
+
+
+   ----------------------------------------------------------------------------
+
+   function To_Natural (Item : in Big_Natural) return Natural is
+      Result : Natural;
+   begin
+
+      -- Initialize variable
+      Result := 0;
+
+      -- Loop converts Item to a natural
+      -- Each iteration, adds one place to sum of Result
+      for Index in Item.Reference.all'Range loop
+         Result := Result + (Item.Reference.all (Index) * 10 ** Index);
+      end loop;
+
+      return Result;
+   end To_Natural;
+
+   ----------------------------------------------------------------------------
+
+   function "+" (Left : in Big_Natural; Right : in Big_Natural) return Big_Natural is
+
+      subtype Sum_Range   is Integer range 0 .. 19;
+      subtype Carry_Range is Integer range 0 .. 1;
+
+      -- Variables
+      Sum    : Sum_Range;    -- Result of adding two digits and possible carry
+      Carry  : Carry_Range;  -- Carry from adding two digits
+      Result : Big_Natural;  -- Sum of two numbers
+
+   begin
+
+      -- Initialize carry variable
+      Carry := 0;
+
+      -- Determine which Big Natural is bigger
+      if Left.Reference.all'Length > Right.Reference.all'Length then
+         Result.Reference := new Digit_Array'(0 .. Left.Reference.all'Last + 1 => 0);
+
+         -- Loop determines sum of Left and Right for the size of the smaller number
+         -- Each iteration, determines sum and carry for one place
+         for Index in Right.Reference.all'Range loop
+            Sum := Left.Reference.all (Index) + Right.Reference.all (Index) + Carry;
+            Result.Reference.all (Index) := Sum rem 10;
+            Carry := Sum / 10;
+         end loop;
+
+         -- Loop determines sum of left for place greater than Right'Last
+         -- Each iteration, determines sum and carry for one place
+         for Index in Right.Reference.all'Last + 1 .. Left.Reference.all'Last loop
+            Sum := Left.Reference.all (Index) + Carry;
+            Result.Reference.all (Index) := Sum rem 10;
+            Carry := Sum / 10;
+         end loop;
+
+         -- Add last carry
+         Result.Reference.all (Result.Reference.all'Last) := Carry;
+
+      else
+         Result.Reference := new Digit_Array'(0 .. Right.Reference.all'Last + 1 => 0);
+
+         -- Loop determines sum of Left and Right for the size of the smaller number
+         -- Each iteration, determines sum and carry for one place
+         for Index in Left.Reference.all'Range loop
+            Sum := Left.Reference.all (Index) + Right.Reference.all (Index) + Carry;
+            Result.Reference.all (Index) := Sum rem 10;
+            Carry := Sum / 10;
+         end loop;
+
+         -- Loop determines sum of left for place greater than Right'Last
+         -- Each iteration, determines sum and carry for one place
+         for Index in Left.Reference.all'Last + 1 .. Right.Reference.all'Last loop
+            Sum := Right.Reference.all (Index) + Carry;
+            Result.Reference.all (Index) := Sum rem 10;
+            Carry := Sum / 10;
+         end loop;
+
+         -- Add last carry
+         Result.Reference.all (Result.Reference.all'Last) := Carry;
+      end if;
+
+      -- Remove leading zeros from Result
+      Remove_Leading_Zeros (Result.Reference);
+
+      return Result;
+
+   end "+";
+
+   --------------------------
+   function "+" (Left : in Big_Natural; Right : in Natural) return Big_Natural is
+   begin
+      return Left + To_Big_Natural (Right);
+   end "+";
+
+   --------------------------
+   function "+" (Left : in Natural; Right : in Big_Natural) return Big_Natural is
+   begin
+      return To_Big_Natural (Left) + Right;
+   end "+";
+
+   ----------------------------------------------------------------------------
+
+   function "-" (Left : in Big_Natural; Right : in Big_Natural) return Big_Natural is
+
+      subtype Borrow_Range is Integer range 0 .. 1;
+
+      -- Variables
+      Borrow      : Borrow_Range;  -- Borrow from next column
+      Result      : Big_Natural;   -- Result of subraction
+
+   begin
+
+      -- Initialize variables
+      Result.Reference := new Digit_Array'(0 .. Left.Reference.all'Last => 0);
+      Borrow := 0;
+
+      -- Loop determines difference for size of smaller number
+      -- Each iteration, determines difference and borrow of one place
+      for Index in Right.Reference.all'Range loop
+         if Left.Reference.all (Index) - Borrow >= Right.Reference.all (Index) then
+            Result.Reference.all (Index) := Left.Reference.all (Index) - Borrow - Right.Reference.all (Index);
+            Borrow := 0;
+         else
+            Result.Reference.all (Index) := Left.Reference.all (Index) +
+                                            10 - Borrow - Right.Reference.all (Index);
+            Borrow := 1;
+         end if;
+      end loop;
+
+      -- Loop determines difference for remaining part of larger number
+      -- Each iteration, determines difference and borrow of one place
+      for Index in Right.Reference.all'Last + 1 .. Result.Reference.all'Last loop
+         if Borrow = 0 then
+            Result.Reference.all (Index) := Left.Reference.all (Index);
+         else
+            if Left.Reference.all (Index) = 0 then
+               Result.Reference.all (Index) := Left.Reference.all (Index) + 10 - Borrow;
+               Borrow := 1;
+            else
+               Result.Reference.all (Index) := Left.Reference.all (Index) - Borrow;
+               Borrow := 0;
+            end if;
+         end if;
+      end loop;
+
+      -- If there is a remaining borrow after both loops, number is negative
+      if Borrow = 1 then
+         raise CONSTRAINT_ERROR;
+      end if;
+
+      -- Remove leading zeros
+      Remove_Leading_Zeros (Result.Reference);
+
+      return Result;
+   end "-";
+
+   --------------------------
+   function "-" (Left : in Big_Natural; Right : in Natural) return Big_Natural is
+   begin
+      return Left - To_Big_Natural (Right);
+   end "-";
+
+   --------------------------
+   function "-" (Left : in Natural; Right : in Big_Natural) return Big_Natural is
+   begin
+      return To_Big_Natural (Left) - Right;
+   end "-";
+
+
+   ----------------------------------------------------------------------------
+
+   function "*" (Left : in Big_Natural; Right : in Big_Natural) return Big_Natural is
+
+      -- Variable
+      Result : Big_Natural;
+
+   begin
+
+      -- Initialize Result
+      Result.Reference := new Digit_Array'(0 .. Left.Reference.all'Length + Right.Reference.all'Length => 0);
+
+      -- Loop determines the product of two Big Natural numbers
+      -- Each iteration, adds Result and Left shifted left and multiplied by Right (Index)
+      for Index in Right.Reference.all'Range loop
+         Result := Result + Shift_Left (Number => Left * Right.Reference.all (Index),
+                                        By     => Index);
+      end loop;
+
+      -- Remove leading zeros
+      Remove_Leading_Zeros (Result.Reference);
+
+      return Result;
+   end "*";
+
+   --------------------------
+   function "*" (Left : in Natural; Right : in Big_Natural) return Big_Natural is
+   begin
+      return To_Big_Natural (Left) * Right;
+   end "*";
+
+   ----------------------------------------------------------------------------
+
+   function "/" (Dividend : in Big_Natural; Divisor : in Big_Natural) return Big_Natural is
+      -- The following two pragmas disable warnings for not using the parameters.
+      -- If you implement this extra credit function, delete these two lines
+      pragma Warnings (Off, Dividend);
+      pragma Warnings (Off, Divisor);
+
+      -- Variables
+      Quotient : Big_Natural;
+      Index    : Natural;
+
+   begin
+
+      Quotient.Reference := new Digit_Array'(0 .. Dividend.Reference.all'Last + 1 => 0);
+      Index := Quotient.Reference.all'Last;
+
+      for Index in reverse Quotient.Reference.all'Range loop
+         loop
+            exit when
+      end loop;
+
+      Remove_Leading_Zeros (Quotient.Reference);
+
+      return Quotient;
+   end "/";
+
+   --------------------------
+   function "/" (Dividend : in Big_Natural; Divisor : in Natural) return Big_Natural is
+   begin
+      return Dividend / To_Big_Natural (Divisor);
+   end "/";
+
+   ----------------------------------------------------------------------------
+
+   function Shift_Left (Number : in Big_Natural;
+                        By     : in Natural := 1) return Big_Natural is
+   -- Do not implement this functin with multiplication.
+   -- Add By zeros to the least significant end of Number.
+
+      Result : Big_Natural;
+   begin
+
+      if Number.Reference.all (Number.Reference.all'Last) = 0 then
+         return Number;
+      else
+         Result.Reference := new Digit_Array'((0 .. By - 1 => 0) & Number.Reference.all);
+         return Result;
+      end if;
+
+   end Shift_Left;
+
+   ----------------------------------------------------------------------------
+
+   function Shift_Right (Number : in Big_Natural;
+                         By     : in Natural := 1) return Big_Natural is
+
+      Result : Big_Natural;
+
+   begin
+
+      -- Might not need first part of this if statement, test it out.
+      if Number.Reference.all'Last + 1 <= By then
+         Result.Reference := new Digit_Array (0 .. 0);
+         Result.Reference.all := Number.Reference.all (0 .. 0);
+      else
+         Result.Reference := new Digit_Array (0 .. Number.Reference.all'Last - By);
+         Result.Reference.all := Number.Reference.all (By .. Number.Reference.all'Last);
+      end if;
+
+      return Result;
+   end Shift_Right;
+
+   ----------------------------------------------------------------------------
+
+   function "=" (Left : in Big_Natural; Right : in Big_Natural) return Boolean is
+   begin
+      return Left.Reference.all = Right.Reference.all;
+   end "=";
+
+   function "=" (Left : in Big_Natural; Right : in Natural) return Boolean is
+   begin
+      return Left = To_Big_Natural (Right);
+   end "=";
+
+   function "=" (Left : in Natural;  Right : in Big_Natural) return Boolean is
+   begin
+      return To_Big_Natural (Left) = Right;
+   end "=";
+
+
+   ----------------------------------------------------------------------------
+
+   function "<" (Left : in Big_Natural; Right : in Big_Natural) return Boolean is
+
+      Index : Natural;
+
+   begin
+      if Left.Reference.all'Length < Right.Reference.all'Length then
+         return True;
+      elsif Left.Reference.all'Length > Right.Reference.all'Length then
+         return False;
+      else
+
+         Index := Left.Reference.all'Last;
+
+         loop
+            exit when Index < 1 or else Left.Reference.all (Index) /= Right.Reference.all (Index);
+            Index := Index - 1;
+         end loop;
+
+         return Left.Reference.all (Index) < Right.Reference.all (Index);
+
+      end if;
+
+   end "<";
+
+   function "<" (Left : in Big_Natural; Right : in Natural) return Boolean is
+   begin
+      return Left < To_Big_Natural (Right);
+   end "<";
+
+   function "<" (Left : in Natural;  Right : in Big_Natural) return Boolean is
+   begin
+      return To_Big_Natural (Left) < Right;
+   end "<";
+
+   ----------------------------------------------------------------------------
+
+   function "<=" (Left : in Big_Natural; Right : in Big_Natural) return Boolean is
+   begin
+      return Left = Right or else Left < Right;
+   end "<=";
+
+   function "<=" (Left : in Big_Natural; Right : in Natural) return Boolean is
+   begin
+      return Left <= To_Big_Natural (Right);
+   end "<=";
+
+   function "<=" (Left : in Natural;  Right : in Big_Natural) return Boolean is
+   begin
+      return To_Big_Natural (Left) <= Right;
+   end "<=";
+
+
+   ----------------------------------------------------------------------------
+
+   function ">" (Left : in Big_Natural; Right : in Big_Natural) return Boolean is
+   begin
+      return not (Left <= Right);
+   end ">";
+
+   function ">" (Left : in Big_Natural; Right : in Natural) return Boolean is
+   begin
+      return Left > To_Big_Natural (Right);
+   end ">";
+
+   function ">" (Left : in Natural;  Right : in Big_Natural) return Boolean is
+   begin
+      return To_Big_Natural (Left) > Right;
+   end ">";
+
+   ----------------------------------------------------------------------------
+
+   function ">=" (Left : in Big_Natural; Right : in Big_Natural) return Boolean is
+   begin
+      return not (Left < Right);
+   end ">=";
+
+   function ">=" (Left : in Big_Natural; Right : in Natural) return Boolean is
+   begin
+      return Left >= To_Big_Natural (Right);
+   end ">=";
+
+   function ">=" (Left : in Natural;  Right : in Big_Natural) return Boolean is
+   begin
+      return To_Big_Natural (Left) >= Right;
+   end ">=";
+
+
+
+   ----------------------------------------------------------------------------
+   -- Bodies that override the two operations of the parent class (Controlled)
+   ----------------------------------------------------------------------------
+
+
+   ----------------------------------------------------------------------------
+
+   procedure Finalize (Object : in out Big_Natural) is
+   -- This procedure is automatically called when an instance of a Big_Natural
+   -- is no longer neeed.  It provides "garbage collection" for Big_Naturals
+   begin
+      Recycle (Object.Reference);
+   end Finalize;
+
+   ---------------------------------------------------------------------------
+
+   procedure Adjust (Object : in out Big_Natural) is
+   -- This procedure is automatically called after an assignment of a value to
+   -- Object as in "Object := Other_Object;"  At this point Object and Other_Object
+   -- are aliases.  This procedure will make Object a copy (clone) of Other_Object
+   -- instead of an alias.
+   begin
+      Object.Reference := new Digit_Array'(Object.Reference.all);
+   end Adjust;
+
+end Big_Natural;

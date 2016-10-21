@@ -1,0 +1,252 @@
+
+GNAT GPL 2013 (20130314)
+Copyright 1992-2013, Free Software Foundation, Inc.
+
+
+Checking: test_integrate.adb (source file time stamp: 2014-04-11 14:11:18)
+
+     1. with Integrate;
+     2. with Ada.Text_IO;
+     3. with Ada.Exceptions;
+     4. with Ada.Numerics.Generic_Elementary_Functions;
+     5. procedure Test_Integrate is
+     6.
+     7. -- Completed by   Vincent T. Mossman
+     8. -- Date           April 11, 2014
+     9.
+    10. -- A program to test the generic function Integrate
+    11.
+    12.    type High_Precision is digits 15;
+    13.    package Precise_IO  is new Ada.Text_IO.Float_IO (Num => High_Precision);
+    14.
+    15.    package Elementary_Functions is new
+    16.            Ada.Numerics.Generic_Elementary_Functions (High_Precision);
+    17.    use Elementary_Functions;
+    18.
+    19.    function Integration is new Integrate (High_Precision);
+    20.
+    21.    ----------------------------------------------------------------------------
+    22.    function One (X : in High_Precision) return High_Precision is
+    23.    -- The following pragma instructs the compiler not
+    24.    -- to issue a warning for not using the parameter X
+    25.    pragma Warnings (Off, X);
+    26.    begin
+    27.       return 1.0;
+    28.    end One;
+    29.
+    30.    ----------------------------------------------------------------------------
+    31.    function Two (X : in High_Precision) return High_Precision is
+    32.    begin
+    33.       return X;
+    34.    end Two;
+    35.
+    36.    ----------------------------------------------------------------------------
+    37.    function Three (X : in High_Precision) return High_Precision is
+    38.    begin
+    39.       return Exp (-X ** 2.0);
+    40.    end Three;
+    41.
+    42.    ----------------------------------------------------------------------------
+    43.    function Four (X : in High_Precision) return High_Precision is
+    44.    begin
+    45.       return ((1.0 / 3.0) - X) ** (1.0 / 3.0);
+    46.    end Four;
+    47.
+    48.    ----------------------------------------------------------------------------
+    49.    function Five (X : in High_Precision) return High_Precision is
+    50.    begin
+    51.       return 4.0 / (1.0 + X ** 2.0);
+    52.    end Five;
+    53.
+    54.    ----------------------------------------------------------------------------
+    55.    function Six (X : in High_Precision) return High_Precision is
+    56.    begin
+    57.       return Sin (X) - 0.5 * Cos (X);
+    58.    end Six;
+    59.
+    60. -------------------------------------------------------------------------------
+    61.    A       : High_Precision;  -- Left bound of integration
+    62.    B       : High_Precision;  -- Right bound of intergration
+    63.    Epsilon : High_Precision;  -- Acceptable error
+    64.
+    65. begin  -- Test_Integrate
+    66.
+    67.    Input_Loop :  -- Calculate all of the areas requested
+    68.    loop          -- Each iteration, calculate one area
+    69.       Ada.Text_IO.Put_Line ("Enter A and B   (B < A to terminate program)");
+    70.       Precise_IO.Get (A);
+    71.       Precise_IO.Get (B);
+    72.
+    73.       exit Input_Loop when B < A;
+    74.
+    75.       Ada.Text_IO.Put_Line ("Enter Epsilon");
+    76.       Precise_IO.Get (Epsilon);
+    77.       Ada.Text_IO.New_Line;
+    78.
+    79.       Ada.Text_IO.Put ("For A = ");
+    80.       Precise_IO.Put (Item => A, Fore => 1, Aft => 4, Exp => 0);
+    81.       Ada.Text_IO.Put (", B = ");
+    82.       Precise_IO.Put (Item => B, Fore => 1, Aft => 4, Exp => 0);
+    83.       Ada.Text_IO.Put (", and Epsilon = ");
+    84.       Precise_IO.Put (Item => Epsilon, Fore => 1,
+    85.                       Aft  => High_Precision'Digits / 2,
+    86.                       Exp  => 0);
+    87.       Ada.Text_IO.New_Line (2);
+    88.
+    89.       ---------------------------------------------------------------
+    90.       Ada.Text_IO.Put_Line ("  Result for f(1) is");
+    91.
+    92.       Exception_Block_One :
+    93.       begin
+    94.
+    95.          Precise_IO.Put (Item => Integration (F       => One'Access,
+    96.                                               A       => A,
+    97.                                               B       => B,
+    98.                                               Epsilon => Epsilon),
+    99.                          Fore => 3,
+   100.                          Aft  => High_Precision'Digits,
+   101.                          Exp  => 4);
+   102.
+   103.       exception
+   104.          when STORAGE_ERROR =>
+   105.             Ada.Text_IO.Put_Line ("STORAGE_ERROR raised during f(1) integration");
+   106.          when The_Error : others =>
+   107.             Ada.Text_IO.Put_Line ("Unexpected exception " &
+   108.                                   Ada.Exceptions.Exception_Name (The_Error));
+   109.             Ada.Text_IO.Put_Line (Ada.Exceptions.Exception_Message (The_Error));
+   110.
+   111.       end Exception_Block_One;
+   112.
+   113.       Ada.Text_IO.New_Line (2);
+   114.       ---------------------------------------------------------------
+   115.       Ada.Text_IO.Put_Line ("  Result for f(x) is");
+   116.
+   117.       Exception_Block_Two :
+   118.       begin
+   119.
+   120.          Precise_IO.Put (Item => Integration (F       => Two'Access,
+   121.                                               A       => A,
+   122.                                               B       => B,
+   123.                                               Epsilon => Epsilon),
+   124.                          Fore => 3,
+   125.                          Aft  => High_Precision'Digits,
+   126.                          Exp  => 4);
+   127.
+   128.       exception
+   129.          when STORAGE_ERROR =>
+   130.             Ada.Text_IO.Put_Line ("STORAGE_ERROR raised during f(x) integration");
+   131.          when The_Error : others =>
+   132.             Ada.Text_IO.Put_Line ("Unexpected exception " &
+   133.                                   Ada.Exceptions.Exception_Name (The_Error));
+   134.             Ada.Text_IO.Put_Line (Ada.Exceptions.Exception_Message (The_Error));
+   135.
+   136.       end Exception_Block_Two;
+   137.
+   138.       Ada.Text_IO.New_Line (2);
+   139.       ---------------------------------------------------------------
+   140.       Ada.Text_IO.Put_Line ("  Result for f(e to the -x squared power) is");
+   141.
+   142.       Exception_Block_Three :
+   143.       begin
+   144.
+   145.          Precise_IO.Put (Item => Integration (F       => Three'Access,
+   146.                                               A       => A,
+   147.                                               B       => B,
+   148.                                               Epsilon => Epsilon),
+   149.                          Fore => 3,
+   150.                          Aft  => High_Precision'Digits,
+   151.                          Exp  => 4);
+   152.
+   153.       exception
+   154.          when STORAGE_ERROR =>
+   155.             Ada.Text_IO.Put_Line ("STORAGE_ERROR raised during f(e to the -x squared power) integration");
+   156.          when The_Error : others =>
+   157.             Ada.Text_IO.Put_Line ("Unexpected exception " &
+   158.                                   Ada.Exceptions.Exception_Name (The_Error));
+   159.             Ada.Text_IO.Put_Line (Ada.Exceptions.Exception_Message (The_Error));
+   160.
+   161.       end Exception_Block_Three;
+   162.
+   163.       Ada.Text_IO.New_Line (2);
+   164.       ---------------------------------------------------------------
+   165.       Ada.Text_IO.Put_Line ("  Result for f((1/3 - x) to the 1/3 power) is");
+   166.
+   167.       Exception_Block_Four :
+   168.       begin
+   169.
+   170.          Precise_IO.Put (Item => Integration (F       => Four'Access,
+   171.                                               A       => A,
+   172.                                               B       => B,
+   173.                                               Epsilon => Epsilon),
+   174.                          Fore => 3,
+   175.                          Aft  => High_Precision'Digits,
+   176.                          Exp  => 4);
+   177.
+   178.       exception
+   179.          when STORAGE_ERROR =>
+   180.             Ada.Text_IO.Put_Line ("STORAGE_ERROR raised during f((1/3 - x) to the 1/3 power) integration");
+   181.          when The_Error : others =>
+   182.             Ada.Text_IO.Put_Line ("Unexpected exception " &
+   183.                                   Ada.Exceptions.Exception_Name (The_Error));
+   184.             Ada.Text_IO.Put_Line (Ada.Exceptions.Exception_Message (The_Error));
+   185.
+   186.       end Exception_Block_Four;
+   187.
+   188.       Ada.Text_IO.New_Line (2);
+   189.       ---------------------------------------------------------------
+   190.       Ada.Text_IO.Put_Line ("  Result for f(4/(1 + x squared)) is");
+   191.
+   192.       Exception_Block_Five :
+   193.       begin
+   194.
+   195.          Precise_IO.Put (Item => Integration (F       => Five'Access,
+   196.                                               A       => A,
+   197.                                               B       => B,
+   198.                                               Epsilon => Epsilon),
+   199.                          Fore => 3,
+   200.                          Aft  => High_Precision'Digits,
+   201.                          Exp  => 4);
+   202.
+   203.       exception
+   204.          when STORAGE_ERROR =>
+   205.             Ada.Text_IO.Put_Line ("STORAGE_ERROR raised during f(4/(1 + x squared)) integration");
+   206.          when The_Error : others =>
+   207.             Ada.Text_IO.Put_Line ("Unexpected exception " &
+   208.                                   Ada.Exceptions.Exception_Name (The_Error));
+   209.             Ada.Text_IO.Put_Line (Ada.Exceptions.Exception_Message (The_Error));
+   210.
+   211.       end Exception_Block_Five;
+   212.
+   213.       Ada.Text_IO.New_Line (2);
+   214.       ---------------------------------------------------------------
+   215.       Ada.Text_IO.Put_Line ("  Result for f(sin(x) - 0.5 cos(x)) is");
+   216.
+   217.       Exception_Block_Six :
+   218.       begin
+   219.
+   220.          Precise_IO.Put (Item => Integration (F       => Six'Access,
+   221.                                               A       => A,
+   222.                                               B       => B,
+   223.                                               Epsilon => Epsilon),
+   224.                          Fore => 3,
+   225.                          Aft  => High_Precision'Digits,
+   226.                          Exp  => 4);
+   227.
+   228.       exception
+   229.          when STORAGE_ERROR =>
+   230.             Ada.Text_IO.Put_Line ("STORAGE_ERROR raised during f(sin(x) - 0.5 cos(x)) integration");
+   231.          when The_Error : others =>
+   232.             Ada.Text_IO.Put_Line ("Unexpected exception " &
+   233.                                   Ada.Exceptions.Exception_Name (The_Error));
+   234.             Ada.Text_IO.Put_Line (Ada.Exceptions.Exception_Message (The_Error));
+   235.
+   236.       end Exception_Block_Six;
+   237.
+   238.       Ada.Text_IO.New_Line (2);
+   239.
+   240.    end loop Input_Loop;
+   241.    Ada.Text_IO.New_Line;
+   242.    Ada.Text_IO.Put_Line ("All Done");
+   243. end Test_Integrate;
+
+ 243 lines: No errors

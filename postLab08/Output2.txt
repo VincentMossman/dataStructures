@@ -1,0 +1,11 @@
+Enter the patient's name
+Enter the lower bound (percent)
+Enter the upper bound (percent)
+Enter number of readings used in a calculation
+
+Beginning patient heart monitoring
+
+
+
+Insurance terminated!
+Patient's Cardioverter-Defibrillator removed.

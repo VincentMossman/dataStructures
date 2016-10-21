@@ -1,0 +1,26 @@
+V "GNAT Lib v2013"
+A -gnatwu
+A -gnat05
+A -gnatc
+A -mtune=generic
+A -march=pentiumpro
+P NO ZX
+
+RN
+RV NO_ACCESS_SUBPROGRAMS
+RV NO_FLOATING_POINT
+RV NO_ELABORATION_CODE
+RV SPARK
+
+U integrate%s		integrate.ads		82215f15 EE OO GE
+
+D integrate.ads		20140411141906 82215f15
+X 1 integrate.ads
+10F9 Real 11r58 11r71 12r35 13r35 14r35 14r48
+11v10*Integrate 11^21 12>21 13>21 14>21
+11p21 F(10F9)
+11*51 X{10F9}
+12*21 A{10F9}
+13*21 B{10F9}
+14*21 Epsilon{10F9}
+

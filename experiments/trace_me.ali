@@ -1,0 +1,83 @@
+V "GNAT Lib v2013"
+M P W=b
+A -gnatwu
+A -gnat05
+A -mtune=generic
+A -march=pentiumpro
+P ZX
+
+RN
+RV NO_IO
+RV SPARK
+
+U trace_me%b		trace_me.adb		f28b8d83 NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-except.ads		20130417131018 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-inteio.ads		20130417131020 f64b89a4
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131020 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-tiinio.ads		20130417131022 aa04e5d6
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131026 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D system.ads		20130417131036 5fc8ae56
+D s-conca2.ads		20130417131028 fbd0f2fc
+D s-crtl.ads		20130417131028 dfcfca61
+D s-exctab.ads		20130417131028 66e51330
+D s-ficobl.ads		20130417131028 55a71d43
+D s-finmas.ads		20130417131028 b95bb341
+D s-finroo.ads		20130417131028 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131032 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+D trace_me.adb		20140115234730 3cadf1f3
+X 1 ada.ads
+16K9*Ada 19e8 31|1r6 2r6 27r7 28r7 29r7 30r7 60r7 62r7 66r7
+X 4 a-inteio.ads
+18K13*Integer_Text_IO[9|45] 31|2w10 27r11 28r11 29r11
+X 8 a-textio.ads
+49K13*Text_IO 471e16 31|1w10 30r11 60r11 62r11 66r11
+73I12*Field{integer}
+166U14*New_Line 31|30s19
+263U14*Put_Line 31|60s19 62s19 66s19
+X 9 a-tiinio.ads
+65U14*Put 31|27s27[4|18] 28s27[4|18] 29s27[4|18]
+66i7 Item{integer} 31|27r32[4|18] 28r32[4|18] 29r32[4|18]
+67i7 Width{8|73I12} 31|27r50[4|18] 28r49[4|18] 29r51[4|18]
+X 31 trace_me.adb
+3U11*Trace_Me 3b11 67l8 67t16
+5A9 Natural_Array(natural)<integer> 8r26 24r36
+6E12 Uppercase{character} 45r62
+7A12 Name_String{string}<integer> 56r14
+8A12 Move_Array{5A9}<integer> 57r14
+12U14 Shift_Char 12b14 12=26 13>26 19l8 19t18 33s10
+12e26 Char{character} 17m10 17r34 33r22
+13i26 Amt{natural} 16r25 34r22
+16i11 Count{integer}
+23U14 Shift_String 23b14 23=28 24>28 36l8 36t20 64s7
+23s28 Word{string} 32r20 33m30 33r30 64r21
+24a28 By{5A9} 27r40 28r40 29r40 34r29 65r21
+32i11 Index{integer} 33r36 34r33
+40U14 Swap 40b14 40=20 52l8 52t12 61s7
+40s20 Word{string} 43r16 45r28 45r46 49r19 50m10 50r18 50r33 50r46 50r52
+41i7 Index{positive} 43m7 45r20 45r52 46m10 46r19 49r10 50r24 50r66
+56a7 Name{7A12} 59m7 60r29 61m13 61r13 62r29 64m29 64r29 66r29
+57a7 Move{8A12} 63m7 65r27
+

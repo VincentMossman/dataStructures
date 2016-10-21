@@ -1,0 +1,282 @@
+Intial tree characteristics
+----------------------------------------------------
+
+The initial tree is not empty
+
+Current is defined
+
+
+  15 h
+  25 d
+  35 i
+  50 b
+  65 j
+  75 e
+  85 k
+ 100 a
+ 115 l
+ 125 f
+ 135 m
+ 150 c
+ 165 n
+ 175 g
+ 185 o
+
+
+
+
+
+Testing Delete
+----------------------------------------------------
+
+
+Deleting top to bottom
+----------------------
+The keys in the original tree
+
+  15  25  35  50  65  75  85 100 115 125 135 150 165 175 185
+
+The keys after deleting 100
+
+  15  25  35  50  65  75  85 115 125 135 150 165 175 185
+
+
+The keys after deleting 50
+
+  15  25  35  65  75  85 115 125 135 150 165 175 185
+
+
+The keys after deleting 150
+
+  15  25  35  65  75  85 115 125 135 165 175 185
+
+
+The keys after deleting 25
+
+  15  35  65  75  85 115 125 135 165 175 185
+
+
+The keys after deleting 75
+
+  15  35  65  85 115 125 135 165 175 185
+
+
+The keys after deleting 125
+
+  15  35  65  85 115 135 165 175 185
+
+
+The keys after deleting 175
+
+  15  35  65  85 115 135 165 185
+
+
+The keys after deleting 15
+
+  35  65  85 115 135 165 185
+
+
+The keys after deleting 35
+
+  65  85 115 135 165 185
+
+
+The keys after deleting 65
+
+  85 115 135 165 185
+
+
+The keys after deleting 85
+
+ 115 135 165 185
+
+
+The keys after deleting 115
+
+ 135 165 185
+
+
+The keys after deleting 135
+
+ 165 185
+
+
+The keys after deleting 165
+
+ 185
+
+
+The keys after deleting 185
+
+
+
+
+
+Deleting in order
+-----------------
+The keys in the original tree
+
+  15  25  35  50  65  75  85 100 115 125 135 150 165 175 185
+
+The keys after deleting 15
+
+  25  35  50  65  75  85 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 25
+
+  35  50  65  75  85 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 35
+
+  50  65  75  85 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 50
+
+  65  75  85 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 65
+
+  75  85 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 75
+
+  85 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 85
+
+ 100 115 125 135 150 165 175 185
+
+
+The keys after deleting 100
+
+ 115 125 135 150 165 175 185
+
+
+The keys after deleting 115
+
+ 125 135 150 165 175 185
+
+
+The keys after deleting 125
+
+ 135 150 165 175 185
+
+
+The keys after deleting 135
+
+ 150 165 175 185
+
+
+The keys after deleting 150
+
+ 165 175 185
+
+
+The keys after deleting 165
+
+ 175 185
+
+
+The keys after deleting 175
+
+ 185
+
+
+The keys after deleting 185
+
+
+
+
+
+Deleting in reverse order
+-------------------------
+The keys in the original tree
+
+  15  25  35  50  65  75  85 100 115 125 135 150 165 175 185
+
+The keys after deleting 185
+
+  15  25  35  50  65  75  85 100 115 125 135 150 165 175
+
+
+The keys after deleting 175
+
+  15  25  35  50  65  75  85 100 115 125 135 150 165
+
+
+The keys after deleting 165
+
+  15  25  35  50  65  75  85 100 115 125 135 150
+
+
+The keys after deleting 150
+
+  15  25  35  50  65  75  85 100 115 125 135
+
+
+The keys after deleting 135
+
+  15  25  35  50  65  75  85 100 115 125
+
+
+The keys after deleting 125
+
+  15  25  35  50  65  75  85 100 115
+
+
+The keys after deleting 115
+
+  15  25  35  50  65  75  85 100
+
+
+The keys after deleting 100
+
+  15  25  35  50  65  75  85
+
+
+The keys after deleting 85
+
+  15  25  35  50  65  75
+
+
+The keys after deleting 75
+
+  15  25  35  50  65
+
+
+The keys after deleting 65
+
+  15  25  35  50
+
+
+The keys after deleting 50
+
+  15  25  35
+
+
+The keys after deleting 35
+
+  15  25
+
+
+The keys after deleting 25
+
+  15
+
+
+The keys after deleting 15
+
+
+
+
+
+
+
+Normal termination of program Test_File_Tree2
+----------------------------------------------------

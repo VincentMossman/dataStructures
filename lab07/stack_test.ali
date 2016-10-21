@@ -1,0 +1,133 @@
+V "GNAT Lib v2013"
+M P W=b
+A -fstack-check=specific
+A -gnatwu
+A -g
+A -gnato
+A -gnatwa
+A -gnat05
+A -gnatwc
+A -gnatwd
+A -gnatwf
+A -gnatwg
+A -gnatwk
+A -gnatwm
+A -gnatwr
+A -gnatwu
+A -gnatwv
+A -gnatww
+A -gnatwz
+A -gnaty3
+A -gnatya
+A -gnatyA
+A -gnatye
+A -gnatyi
+A -gnatyk
+A -gnatyl
+A -gnatyM110
+A -gnatyr
+A -gnatyt
+A -gnatyx
+A -mtune=generic
+A -march=pentiumpro
+P SS ZX
+
+RN
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV SPARK
+
+U stack_test%b		stack_test.adb		e10a9cba NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W stack%s		stack.adb		stack.ali
+W system%s		system.ads		system.ali
+W system.address_image%s  s-addima.adb		s-addima.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.exception_table%s  s-exctab.adb	s-exctab.ali
+W system.img_int%s	s-imgint.adb		s-imgint.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.standard_library%s  s-stalib.adb	s-stalib.ali
+W system.storage_elements%s  s-stoele.adb	s-stoele.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-except.ads		20130417131018 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131020 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131026 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D stack.ads		20140227173658 b4e2e1ee
+D stack.adb		20140227173658 efd6eaef
+D stack_test.adb	20140227173700 6d858880
+D system.ads		20130417131036 5fc8ae56
+D s-addima.ads		20130417131028 a1ec9d3a
+D s-conca2.ads		20130417131028 fbd0f2fc
+D s-crtl.ads		20130417131028 dfcfca61
+D s-exctab.ads		20130417131028 66e51330
+D s-ficobl.ads		20130417131028 55a71d43
+D s-finmas.ads		20130417131028 b95bb341
+D s-finroo.ads		20130417131028 4ff27390
+D s-imgint.ads		20130417131030 02dbe0c2
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-secsta.ads		20130417131032 eea35a36
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131032 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 13|12r9 32r7 35r7 38r10 45r13 49r7 50r7 51r7 57r7 62r13 66r7
+. 67r7 68r7 72r7 76r10 79r13 81r13 83r7 86r7 91r10 94r13 96r13 98r7 100r7
+X 7 a-textio.ads
+49K13*Text_IO 471e16 13|12w13 32r11 35r11 38r14 45r17 49r11 50r11 51r11 57r11
+. 62r17 66r11 67r11 68r11 72r11 76r14 79r17 81r17 83r11 86r11 91r14 94r17
+. 96r17 98r11 100r11
+166U14*New_Line 13|51s19 68s19 83s19 98s19
+263U14*Put_Line 13|32s19 35s19 38s22 45s25 49s19 50s19 57s19 62s25 66s19
+. 67s19 72s19 76s22 79s25 81s25 86s19 91s22 94s25 96s25 100s19
+X 11 stack.ads
+2+9 Element_Type 13|16r40 17r40
+3k9*Stack 84e10 13|13w9 16r33 17r33
+9R9 Stack_Type 13|19r31[16] 20r30[17]
+11X4 UNDERFLOW 13|78r26[16]
+13X4 STACK_CONSTRAINT_ERROR 13|93r25[17]
+16V13 Size{natural} 13|37s21[16] 44s24[16] 58s32[16]
+22V13 Value_At{character} 13|60s27[16] 75s27[16] 90s22[17]
+23i23 Position{positive} 13|60r37[16]
+39U14 Clear 13|36s18[16] 74s21[16] 88s15[17]
+58U14 Push 13|42s21[16] 89s15[17]
+59e20 New_Element{character} 13|42r27[16]
+X 13 stack_test.adb
+14U14*Stack_Test 14b14 101l8 101t18
+16K15 Char_Stack[11|3] 19r20 78r15
+17K15 Int_Stack[11|3] 20r20 93r15
+19r7 Characters{11|9R9[16]} 36m7 36r7 37r10 42m10 42r10 44r13 58r21 60r16
+. 74m10 74r10 75r16
+20r7 Ints{11|9R9[17]} 88m10 88r10 89m10 89r10 90r17
+22a7 Character_Data{string} 41r24 42r42 61r19
+24i7 Counter{natural} 33m7 43m10 43r21 44r32 55m7 59m10 59r21 60r49 61r35
+25i7 Error_Count{natural} 34m7 39m10 39r25 46m13 46r28 49r44 56m7 63m13 63r28
+. 66r44
+26e7 Ch{character} 60m10 61r13 75m10
+27i7 Int{integer} 90m10
+41i11 I{integer} 42r58
+58i11 I{integer}
+

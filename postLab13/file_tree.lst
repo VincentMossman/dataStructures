@@ -1,0 +1,591 @@
+
+GNAT GPL 2013 (20130314)
+Copyright 1992-2013, Free Software Foundation, Inc.
+
+
+Checking: file_tree.adb (source file time stamp: 2014-05-06 13:23:44)
+
+     1. with Ada.Direct_IO;
+     2. with Ada.Sequential_IO;
+     3. with Ada.IO_Exceptions;
+     4. package body File_Tree is
+     5.
+     6.    -- Completed by   Vincent T. Mossman
+     7.    -- Date           May 6, 2014
+     8.
+     9.    subtype Node_Ptr is Natural;
+    10.
+    11.    Nil : constant Node_Ptr := 0;
+    12.
+    13.    type Node_Type is
+    14.       record
+    15.          Info  : Element_Type;
+    16.          Left  : Node_Ptr := Nil;
+    17.          Right : Node_Ptr := Nil;
+    18.       end record;
+    19.
+    20.    -- For Input and Output of Tree nodes
+    21.    package Node_IO is new Ada.Direct_IO (Element_Type => Node_Type);
+    22.
+    23.    -- For Input and Output of bookkeeping information
+    24.    package Header_IO is new Ada.Sequential_IO (Element_Type => Node_Ptr);
+    25.
+    26.    -- Package Variables (used globally)
+    27.
+    28.    Header_File : Header_IO.File_Type;       -- Keep header information between runs
+    29.    Tree_File   : Node_IO.File_Type;         -- Storage for the Tree's nodes
+    30.
+    31.    Root    : Node_Ptr := Nil;           -- Pointer to the Tree's root node
+    32.    Current : Node_Ptr := Nil;           -- Pointer to the Tree's current node
+    33.    Free    : Node_Ptr := Nil;           -- Head of a list of available nodes
+    34.
+    35.
+    36.    -- Local Procedures
+    37.
+    38.    ----------------------------------------------------------------------------
+    39.    procedure Read_Node (From : in  Node_Ptr;
+    40.                         Node : out Node_Type) is
+    41.    -- Reads a node from the Tree file
+    42.    -- Preconditions  : Tree_File is open for input
+    43.    -- Postconditions : Node is a copy of the node at position From in the file
+    44.    begin
+    45.       Node_IO.Read (File => Tree_File,
+    46.                     Item => Node,
+    47.                     From => Node_IO.Positive_Count (From));
+    48.    end Read_Node;
+    49.
+    50.    ----------------------------------------------------------------------------
+    51.    procedure Write_Node (To   : in Node_Ptr;
+    52.                          Node : in Node_Type) is
+    53.    -- Writes a node to the Tree file
+    54.    -- Preconditions  : Tree File is open for output
+    55.    -- Postconditions : Node is written to Tree_File at position To
+    56.    begin
+    57.       Node_IO.Write (File => Tree_File,
+    58.                      Item => Node,
+    59.                      To   => Node_IO.Positive_Count (To));
+    60.    end Write_Node;
+    61.
+    62.    -----------------------------------------------------------------------------
+    63.    function New_Node return Node_Ptr is
+    64.    -- Find a free node in the file (memory allocation)
+    65.    -- Preconditions  : Tree_File is open for input
+    66.    -- Postconditions : Returns the location of an unused element in Tree_File
+    67.       Result : Node_Ptr;
+    68.       Node   : Node_Type;
+    69.    begin
+    70.       if Free = Nil then
+    71.          return Node_Ptr (Node_IO.Size (Tree_File)) + 1;
+    72.       else
+    73.          Result := Free;
+    74.          Read_Node (From => Result, Node => Node);
+    75.          Free := Node.Left;
+    76.          return Result;
+    77.       end if;
+    78.    end New_Node;
+    79.
+    80.    ----------------------------------------------------------------------------
+    81.    procedure Free_Node (X : in out Node_Ptr) is
+    82.    -- Deallocate the disk memory used by a node
+    83.    -- Preconditions  : Tree File is open for output
+    84.    -- Postconditions : The given file location is made available for future use
+    85.    --                  X is Nil
+    86.       Node : Node_Type;
+    87.    begin
+    88.       Node.Left := Free;
+    89.       Free := X;
+    90.       Write_Node (To => Free, Node => Node);
+    91.       X := Nil;   -- Reset pointer
+    92.    end Free_Node;
+    93.
+    94.    ----------------------------------------------------------------------------
+    95.    procedure Search_Tree (Key      : in  Key_Type;
+    96.                           Parent   : out Node_Ptr;
+    97.                           Location : out Node_Ptr) is
+    98.    -- Searches for the location of Key in the binary search tree
+    99.    -- Preconditions  : None
+   100.    -- Postconditions : If Key is in the tree
+   101.    --                     Location designates the element with Key
+   102.    --                     Parent designates the parent of the node designated by
+   103.    --                        Location.  If Location designates the root of the
+   104.    --                        tree, Parent is Nil.
+   105.    --                  else
+   106.    --                     Location is Nil.
+   107.    --                     if the tree is not empty then
+   108.    --                        Parent designates the node in the tree that is
+   109.    --                        the logical parent of a node containing Key.
+   110.    --                     else
+   111.    --                        Parent is Nil
+   112.       Node : Node_Type;
+   113.    begin
+   114.       Location := Root;
+   115.       Parent   := Nil;
+   116.
+   117.       loop
+   118.          exit when Location = Nil;
+   119.          Read_Node (From => Location, Node => Node);
+   120.          exit when Key = Key_Of (Node.Info);
+   121.          Parent := Location;
+   122.          if Key < Key_Of (Node.Info) then
+   123.             Location := Node.Left;
+   124.          else
+   125.             Location := Node.Right;
+   126.          end if;
+   127.       end loop;
+   128.
+   129.    end Search_Tree;
+   130.
+   131.    ----------------------------------------------------------------------------
+   132.    procedure Find_And_Unlink_Max (Root    : in out Node_Ptr;
+   133.                                   Max_Ptr :    out Node_Ptr) is
+   134.    -- Finds and unlinks the node with the maximum key from a tree
+   135.    -- Preconditions  : Root is not Nil
+   136.    -- Postconditions : Max_Ptr designates the node containing the largest key
+   137.    --                     in the tree whose Root is given
+   138.    --                  The node designated by Max_Ptr is unlinked from the
+   139.    --                     tree rooted at Root
+   140.
+   141.       Parent      : Node_Ptr;
+   142.       Parent_Node : Node_Type;
+   143.       Max_Node    : Node_Type;
+   144.    begin
+   145.       Max_Ptr := Root;   -- Start at the root
+   146.       Parent  := Nil;
+   147.       loop
+   148.       -- Loop locates node with maximum key and assigns Max_Ptr to it
+   149.       -- Each iteration, checks one node
+   150.          Read_Node (Max_Ptr, Max_Node);
+   151.          exit when Max_Node.Right = Nil;
+   152.          Parent := Max_Ptr;
+   153.          Max_Ptr := Max_Node.Right;
+   154.       end loop;
+   155.       if Parent = Nil then
+   156.          Root := Max_Node.Left;
+   157.       else
+   158.          Read_Node (Parent, Parent_Node);
+   159.          Parent_Node.Right := Max_Node.Left;
+   160.          Write_Node (Parent, Parent_Node);
+   161.       end if;
+   162.
+   163.    end Find_And_Unlink_Max;
+   164.
+   165.
+   166.    ----------------------------------------------------------------------------
+   167.    procedure Delete_Root (Root : in out Node_Ptr) is
+   168.    -- Delete the root node from a tree
+   169.    -- Preconditions  : Root is not Nil
+   170.    -- Postconditions : The node designated by Root is deleted
+   171.
+   172.       To_Recycle : Node_Ptr;   -- For recycling file elements
+   173.       Pred_Ptr   : Node_Ptr;   -- Pointer to the root node's predecessor
+   174.
+   175.       Root_Node  : Node_Type;  -- Local copy of root node
+   176.       Pred_Node  : Node_Type;  -- Local copy of the root node's predecessor
+   177.    begin
+   178.       Read_Node (Root, Root_Node);
+   179.       if Root_Node.Left = Nil and Root_Node.Right = Nil then
+   180.       -- Root node has no children
+   181.          Free_Node (Root);
+   182.       elsif Root_Node.Left = Nil then
+   183.       -- Root node has only a right child
+   184.          To_Recycle := Root;
+   185.          Root := Root_Node.Right;
+   186.          Free_Node (To_Recycle);
+   187.       elsif Root_Node.Right = Nil then
+   188.       -- Root node has only a left child
+   189.          To_Recycle := Root;
+   190.          Root := Root_Node.Left;
+   191.          Free_Node (To_Recycle);
+   192.       else
+   193.       -- Root node has two children
+   194.          Find_And_Unlink_Max (Root => Root_Node.Left,
+   195.                               Max_Ptr => Pred_Ptr);
+   196.          Read_Node (Pred_Ptr, Pred_Node);
+   197.          Root_Node.Info := Pred_Node.Info;
+   198.          Write_Node (Root, Root_Node);
+   199.          Free_Node (Pred_Ptr);
+   200.       end if;
+   201.    end Delete_Root;
+   202.
+   203.
+   204.
+   205.    -- Operations defined in the specification
+   206.
+   207.    -----------
+   208.    -- Clear --
+   209.    -----------
+   210.
+   211.    procedure Clear is
+   212.    begin
+   213.       Node_IO.Delete (Tree_File);               -- Delete the file
+   214.       Node_IO.Create (File => Tree_File,        -- Create a new empty file
+   215.                       Name => Tree_File_Name,
+   216.                       Mode => Node_IO.Inout_File);
+   217.       Root    := Nil;
+   218.       Current := Nil;
+   219.       Free    := Nil;
+   220.    end Clear;
+   221.
+   222.    ------------
+   223.    -- Insert --
+   224.    ------------
+   225.
+   226.    procedure Insert (Item : in Element_Type) is
+   227.       Parent : Node_Ptr;   -- Pointers to the parent
+   228.       Child  : Node_Ptr;   -- and child nodes
+   229.
+   230.       Child_Node  : Node_Type;  -- Local copies of the file nodes for
+   231.       Parent_Node : Node_Type;  -- the child and parent
+   232.    begin
+   233.       -- Search for the insertion place
+   234.       Search_Tree (Key      => Key_Of (Item),
+   235.                    Parent   => Parent,
+   236.                    Location => Child);
+   237.
+   238.       if Child /= Nil then
+   239.          raise DUPLICATE_KEY;
+   240.       end if;
+   241.
+   242.       -- Set up the node for the new child
+   243.       Child_Node := (Info  => Item,
+   244.                      Left  => Nil,
+   245.                      Right => Nil);
+   246.       Child := New_Node;
+   247.
+   248.       -- Attach the new child to the tree (change either Root or parent pointer)
+   249.       if Parent = Nil then
+   250.          Root := Child;
+   251.       else
+   252.          Read_Node (From => Parent, Node => Parent_Node);
+   253.          if Key_Of (Item) < Key_Of (Parent_Node.Info) then
+   254.             Parent_Node.Left := Child;
+   255.          else
+   256.             Parent_Node.Right := Child;
+   257.          end if;
+   258.          Write_Node (To => Parent, Node => Parent_Node);
+   259.       end if;
+   260.
+   261.       -- Put the new element into the file
+   262.       Write_Node (To => Child, Node => Child_Node);
+   263.
+   264.       Current := Child;
+   265.
+   266.    end Insert;
+   267.
+   268.    ------------
+   269.    -- Delete --
+   270.    ------------
+   271.
+   272.    procedure Delete (Key : in  Key_Type) is
+   273.       Parent   : Node_Ptr;   -- Pointers to the parent
+   274.       Location : Node_Ptr;   -- and the node to be deleted
+   275.
+   276.       Parent_Node : Node_Type;  -- Local copy of the Parent node
+   277.    begin
+   278.       Current := Nil;  -- The current element is no longer defined
+   279.
+   280.       -- Search for the node we want to delete
+   281.       Search_Tree (Key      => Key,
+   282.                    Parent   => Parent,
+   283.                    Location => Location);
+   284.
+   285.       if Location = Nil then
+   286.          raise KEY_ERROR;
+   287.       elsif Parent = Nil then
+   288.          Delete_Root (Root);
+   289.       else
+   290.          Read_Node (Parent, Parent_Node);
+   291.          if Key < Key_Of (Parent_Node.Info) then
+   292.             Delete_Root (Parent_Node.Left);
+   293.          else
+   294.             Delete_Root (Parent_Node.Right);
+   295.          end if;
+   296.          Write_Node (Parent, Parent_Node);
+   297.       end if;
+   298.
+   299.    end Delete;
+   300.
+   301.    ------------
+   302.    -- Modify --
+   303.    ------------
+   304.
+   305.    procedure Modify (Element : in Element_Type) is
+   306.       Current_Node : Node_Type;
+   307.    begin
+   308.       if Current = Nil then
+   309.          raise CURRENT_UNDEFINED;
+   310.       end if;
+   311.
+   312.       Read_Node (From => Current, Node => Current_Node);
+   313.       if Key_Of (Element) /= Key_Of (Current_Node.Info) then
+   314.          raise KEY_ERROR;
+   315.       end if;
+   316.       Current_Node.Info := Element;
+   317.       Write_Node (To => Current, Node => Current_Node);
+   318.
+   319.    end Modify;
+   320.
+   321.    ----------
+   322.    -- Find --
+   323.    ----------
+   324.
+   325.    procedure Find (Key : in  Key_Type) is
+   326.       Parent : Node_Ptr;
+   327.    begin
+   328.       Search_Tree (Key      => Key,
+   329.                    Parent   => Parent,
+   330.                    Location => Current);
+   331.    end Find;
+   332.
+   333.    -----------
+   334.    -- Close --
+   335.    -----------
+   336.
+   337.    procedure Close is
+   338.    begin
+   339.       Header_IO.Create (File => Header_File,
+   340.                         Name => Header_File_Name);
+   341.       Header_IO.Write (File => Header_File, Item => Root);
+   342.       Header_IO.Write (File => Header_File, Item => Current);
+   343.       Header_IO.Write (File => Header_File, Item => Free);
+   344.       Header_IO.Close (Header_File);
+   345.       Node_IO.Close (Tree_File);
+   346.    end Close;
+   347.
+   348.    ---------------------
+   349.    -- Current_Defined --
+   350.    ---------------------
+   351.
+   352.    function Current_Defined return Boolean is
+   353.    begin
+   354.       return Current /= Nil;
+   355.    end Current_Defined;
+   356.
+   357.    -----------
+   358.    -- Empty --
+   359.    -----------
+   360.
+   361.    function Empty return Boolean is
+   362.    begin
+   363.       return Root = Nil;
+   364.    end Empty;
+   365.
+   366.    --------------
+   367.    -- Retrieve --
+   368.    --------------
+   369.
+   370.    procedure Retrieve (Element : out Element_Type) is
+   371.       Current_Node : Node_Type;
+   372.    begin
+   373.       if Current = Nil then
+   374.          raise CURRENT_UNDEFINED;
+   375.       end if;
+   376.
+   377.       Read_Node (From => Current, Node => Current_Node);
+   378.       Element := Current_Node.Info;
+   379.    end Retrieve;
+   380.
+   381.    ------------
+   382.    -- Height --
+   383.    ------------
+   384.
+   385.    function Height return Natural is
+   386.       function Recursive_Height (Root : in Node_Ptr) return Natural is
+   387.          Node : Node_Type;
+   388.       begin
+   389.          if Root = Nil then
+   390.             return 0;
+   391.          else
+   392.             Read_Node (From => Root, Node => Node);
+   393.             return 1 + Natural'Max (Recursive_Height (Root => Node.Left),
+   394.                                     Recursive_Height (Root => Node.Right));
+   395.          end if;
+   396.       end Recursive_Height;
+   397.    begin
+   398.       return Recursive_Height (Root);
+   399.    end Height;
+   400.
+   401.    ----------------------
+   402.    -- InOrder_Traverse --
+   403.    ----------------------
+   404.
+   405.    procedure InOrder_Traverse
+   406.      (Process : not null access procedure (Element : in out Element_Type)) is
+   407.
+   408.       procedure Inorder (Root : in Node_Ptr) is
+   409.          Node : Node_Type;
+   410.       begin
+   411.          if Root /= Nil then
+   412.             Read_Node (From => Root, Node => Node);
+   413.             InOrder (Node.Left);
+   414.             Process (Node.Info);
+   415.             Write_Node (To => Root, Node => Node);
+   416.             InOrder (Node.Right);
+   417.          end if;
+   418.       end Inorder;
+   419.    begin
+   420.       Inorder (Root);
+   421.    end InOrder_Traverse;
+   422.
+   423.
+   424. begin  -- Initialize the tree
+   425.    Node_IO.Open (File => Tree_File,
+   426.                  Mode => Node_IO.Inout_File,
+   427.                  Name => Tree_File_Name);
+   428.    Header_IO.Open (File => Header_File,
+   429.                    Mode => Header_IO.In_File,
+   430.                    Name => Header_File_Name);
+   431.    Header_IO.Read (File => Header_File, Item => Root);
+   432.    Header_IO.Read (File => Header_File, Item => Current);
+   433.    Header_IO.Read (File => Header_File, Item => Free);
+   434.    Header_IO.Close (Header_File);
+   435.
+   436. exception
+   437.    when Ada.IO_Exceptions.Name_Error =>   -- One of the two open statements failed
+   438.       if not Node_IO.Is_Open (Tree_File) then
+   439.          --The tree data file does not exist, create an empty one
+   440.          Node_IO.Create (File => Tree_File,
+   441.                          Mode => Node_IO.Inout_File,
+   442.                          Name => Tree_File_Name);
+   443.          Root    := Nil;
+   444.          Current := Nil;
+   445.          Free    := Nil;
+   446.       else
+   447.          -- The tree data file exists but the header data file does not
+   448.          -- A big problem.  Don't destroy the data file.  End the program.
+   449.          Node_IO.Close (Tree_File);
+   450.          raise; -- propogate the exception to halt the program
+   451.       end if;
+   452. end File_Tree;
+
+Checking: file_tree.ads (source file time stamp: 2011-12-02 14:58:56)
+
+     1. generic
+     2.
+     3.    Tree_File_Name   : String;  -- Name of file used for tree storage
+     4.    Header_File_Name : String;  -- Name of file used for bookkeeping information
+     5.
+     6.    type Element_Type is private;       -- The type of element in the list
+     7.    type Key_Type is limited private;   -- The type of key in the element
+     8.
+     9.    -- The user must supply a function that returns the Key of an Element
+    10.    with function Key_Of (Element : in Element_Type) return Key_Type;
+    11.    -- The user must supply functions for comparing Keys
+    12.    with function "=" (Left : in Key_Type; Right : in Key_Type) return Boolean;
+    13.    with function "<" (Left : in Key_Type; Right : in Key_Type) return Boolean;
+    14.
+    15. package File_Tree is
+    16.
+    17. -- This package implements a binary search tree ADO. The tree is physically stored
+    18. -- in two files.  The user supplies the filenames for these two files.
+    19. --
+    20. -- Each element in the tree is identified by a unique key.
+    21.
+    22. -- The tree includes the notion of a current element.
+    23. -- The retrieve and modify operations are performed on the current node.
+    24.
+    25.
+    26.    DUPLICATE_KEY     : exception;
+    27.    KEY_ERROR         : exception;
+    28.    OVERFLOW          : exception;
+    29.    CURRENT_UNDEFINED : exception;
+    30.
+    31.    -- Transformers
+    32.
+    33.    ----------------------------------------------------------------------------
+    34.    procedure Clear;
+    35.    -- Purpose        : Removes all elements from Tree.
+    36.    -- Preconditions  : None
+    37.    -- Postconditions : Tree is empty.
+    38.
+    39.    ----------------------------------------------------------------------------
+    40.    procedure Insert (Item : in Element_Type);
+    41.    -- Purpose        : Adds Item to Tree.
+    42.    -- Preconditions  : None
+    43.    -- Postconditions : Tree = original Tree + Item
+    44.    --                  Item becomes the current element
+    45.    -- Exceptions     : OVERFLOW       If there is no room for Item.
+    46.    --                  DUPLICATE_KEY  If an element already exists in the tree
+    47.    --                                 with the same key as Item.
+    48.    --                                 Tree is unchanged in both cases.
+    49.
+    50.    -----------------------------------------------------------------------------
+    51.    procedure Delete (Key : in  Key_Type);
+    52.    -- Purpose        : Deletes the element with the given Key from Tree
+    53.    -- Preconditions  : None
+    54.    -- Postconditions : Tree = original Tree with the Key element removed
+    55.    --                  The current element is not defined.
+    56.    -- Exceptions     : KEY_ERROR  If Key is not found in Tree.
+    57.    --                             Tree is unchanged.
+    58.
+    59.    -----------------------------------------------------------------------------
+    60.    procedure Modify (Element : in Element_Type);
+    61.    -- Purpose        : Replace current element with Element.
+    62.    -- Preconditions  : None
+    63.    -- Postconditions : The current element is replaced by Element
+    64.    -- Exceptions     : CURRENT_UNDEFINED  If the current element is not
+    65.    --                                     defined.  Tree is unchanged.
+    66.    --                  KEY_ERROR     If Element has a different key than the
+    67.    --                                current element.  Tree and current
+    68.    --                                element are unchanged.
+    69.
+    70.    ----------------------------------------------------------------------------
+    71.    procedure Find (Key : in  Key_Type);
+    72.    -- Purpose        : Searches Tree for Key
+    73.    -- Preconditions  : None
+    74.    -- Postconditions : If there is an element with Key in Tree, that element
+    75.    --                  becomes the current element for the Tree.  If the Key
+    76.    --                  is not found in Tree, the current element is undefined.
+    77.
+    78.    ----------------------------------------------------------------------------
+    79.    procedure Close;
+    80.    -- Purpose        : Saves tree header information in a file
+    81.    --                  Must be called before ending the program or the tree will be lost
+    82.    -- Preconditions  : Close was not previously called
+    83.    -- Postconditions : Both tree files are closed
+    84.
+    85.
+    86.
+    87.    -- Observers
+    88.
+    89.    ----------------------------------------------------------------------------
+    90.    function Current_Defined return Boolean;
+    91.    -- Purpose        : Determines whether or not a current element is defined
+    92.    -- Preconditions  : None
+    93.    -- Postconditions : Returns True is a current element is defined, otherwise
+    94.    --                  returns False.
+    95.
+    96.    ----------------------------------------------------------------------------
+    97.    function Empty return Boolean;
+    98.    -- Purpose        : Determines whether Tree is empty.
+    99.    -- Preconditions  : None
+   100.    -- Postconditions : Empty = (Tree is empty)
+   101.
+   102.    -----------------------------------------------------------------------------
+   103.    procedure Retrieve (Element : out Element_Type);
+   104.    -- Purpose        : Get an element from Tree
+   105.    -- Preconditions  : None
+   106.    -- Postconditions : Element is a copy of the current element of Tree.
+   107.    -- Exceptions     : CURRENT_UNDEFINED  If the current element is not
+   108.    --                                     defined.
+   109.
+   110.    ----------------------------------------------------------------------------
+   111.    function Height return Natural;
+   112.    -- Purpose        : Determine the height of Tree
+   113.    -- Preconditions  : None
+   114.    -- Postconditions : Height = number of levels in tree
+   115.
+   116.    -- Iterator
+   117.
+   118.    -----------------------------------------------------------------------------
+   119.    procedure InOrder_Traverse (Process : not null access procedure (Element : in out Element_Type));
+   120.    -- Purpose        : Process all the elements in Tree in Inorder
+   121.    -- Preconditions  : Procedure Process does not change the key of an element
+   122.    -- Postconditions : Every element in Tree is passed to a call of
+   123.    --                  procedure Process. Elements processed in Inorder
+   124.
+   125.
+   126.
+   127. end File_Tree;
+
+ 452 lines: No errors

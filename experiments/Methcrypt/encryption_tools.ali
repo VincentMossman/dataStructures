@@ -1,0 +1,42 @@
+V "GNAT Lib v2013"
+A -fstack-check=specific
+A -gnatwu
+A -g
+A -gnato
+A -gnatwa
+A -gnat05
+A -gnatc
+A -mtune=generic
+A -march=pentiumpro
+P NO ZX
+
+RN
+RV NO_ELABORATION_CODE
+RV SPARK
+
+U encryption_tools%s	encryption_tools.ads	89e26e2f EE OO PK
+
+D encryption_tools.ads	20140131064218 89e26e2f
+X 1 encryption_tools.ads
+3K9*Encryption_Tools 35l5 35e21
+5A9*Phrase<string><integer> 20r39
+6I9*Length<integer> 21r39
+8E12*Upper_Case{character} 12r34 14r34
+10R9*Encryption_Code 16e17 27r46 30r53 33r53
+12e10*Right_Shift{8E12}
+13i10*Right_Shift_Magnitude{positive}
+14e10*Left_Shift{8E12}
+15i10*Left_Shift_Magnitude{positive}
+20V13 Encrypt_Phrase{string} 20>29 21>29
+20a29 Item{5A9}
+21i29 Last{6I9}
+25V16 Prime{positive} 25>23
+25i23 N{positive}
+27V16 Random_Encryption_Code{10R9}
+29V16 Encrypt_Character{positive} 29>35 30>43
+29e35 Item{character}
+30r43 Code{10R9}
+32V16 Decrypt_Character{character} 32>35 33>43
+32i35 Item{positive}
+33r43 Code{10R9}
+

@@ -1,0 +1,62 @@
+V "GNAT Lib v2013"
+M P W=b
+A -gnatwu
+A -gnat05
+P ZX
+
+RN
+RV NO_IO
+RV SPARK
+
+U prelab2test%b		prelab2test.adb		dd049f94 NE OO SU IL
+W ada%s			ada.ads			ada.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W system%s		system.ads		system.ali
+W system.compare_array_unsigned_8%s  s-carun8.adb  s-carun8.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-except.ads		20130417131018 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131020 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131026 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D prelab2test.adb	20140122072232 e5696a40
+D system.ads		20130417131036 5fc8ae56
+D s-carun8.ads		20130417131028 da3bf6cd
+D s-crtl.ads		20130417131028 dfcfca61
+D s-exctab.ads		20130417131028 66e51330
+D s-ficobl.ads		20130417131028 55a71d43
+D s-finmas.ads		20130417131028 b95bb341
+D s-finroo.ads		20130417131028 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131032 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 11|1r6 13r7 15r7 18r4 21r7 23r7 26r4 29r7 31r7
+X 7 a-textio.ads
+49K13*Text_IO 471e16 11|1w10 13r11 15r11 18r8 21r11 23r11 26r8 29r11 31r11
+166U14*New_Line 11|18s16 26s16
+242U14*Put 11|13s19 15s19 21s19 23s19 29s19 31s19
+X 11 prelab2test.adb
+3U11*prelab2test 3b11 34l5 34t16
+5E9 Color_Type 5e41 6r42
+5n24 Red{5E9} 7r53 8r53 8r58
+5n29 Green{5E9} 7r39 7r46 7r58 8r33 8r40
+5n36 Blue{5E9} 7r33 8r47
+6A9 Color_Array(5E9)<integer> 7r17 8r17
+7a4 A{6A9} 12r7 20r7 28r7
+8a4 B{6A9} 12r11 20r20 28r20
+

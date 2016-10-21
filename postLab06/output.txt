@@ -1,0 +1,602 @@
+Tests without input
+
+
+                     Natural              Big Natural
+                     -------              -----------
+54321 is               54321                   54,321
+12345 is               12345                   12,345
+Natural'Last is   2147483647            2,147,483,647
+Zero is                    0                        0
+
+Done with To_Big_Natural tests
+
+Checking for expected overflow when converting a big natural to natural
+This test requires that the "+" operator be completed
+
+Successfully detected a Value too large to convert to Natural
+
+Done with To_Natural test constraint error test
+
+
+A is                                            54,321
+B is                                            12,345
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                        66,666
+A - B is                                        41,976
+B - A is                                     Negative
+A * B is                                   670,592,745
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                             54,321
+A shifted left 1 is                            543,210
+A shifted left 2 is                          5,432,100
+A shifted left 3 is                         54,321,000
+
+A shifted right 0 is                            54,321
+A shifted right 1 is                             5,432
+A shifted right 2 is                               543
+A shifted right 3 is                                54
+
+
+
+Done with operator tests without input
+
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                               251
+B is                                               152
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                           403
+A - B is                                            99
+B - A is                                     Negative
+A * B is                                        38,152
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                                251
+A shifted left 1 is                              2,510
+A shifted left 2 is                             25,100
+A shifted left 3 is                            251,000
+
+A shifted right 0 is                               251
+A shifted right 1 is                                25
+A shifted right 2 is                                 2
+A shifted right 3 is                                  
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                               152
+B is                                               251
+
+A = B                                            FALSE
+A <= B                                           TRUE
+A >= B                                           FALSE
+A < B                                            TRUE
+A > B                                            FALSE
+
+A + B is                                           403
+A - B is                                     Negative
+B - A is                                            99
+A * B is                                        38,152
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                                152
+A shifted left 1 is                              1,520
+A shifted left 2 is                             15,200
+A shifted left 3 is                            152,000
+
+A shifted right 0 is                               152
+A shifted right 1 is                                15
+A shifted right 2 is                                 1
+A shifted right 3 is                                  
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                               152
+B is                                               152
+
+A = B                                            TRUE
+A <= B                                           TRUE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            FALSE
+
+A + B is                                           304
+A - B is                                             0
+B - A is                                             0
+A * B is                                        23,104
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                                152
+A shifted left 1 is                              1,520
+A shifted left 2 is                             15,200
+A shifted left 3 is                            152,000
+
+A shifted right 0 is                               152
+A shifted right 1 is                                15
+A shifted right 2 is                                 1
+A shifted right 3 is                                  
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                             2,345
+B is                                               234
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                         2,579
+A - B is                                         2,111
+B - A is                                     Negative
+A * B is                                       548,730
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                              2,345
+A shifted left 1 is                             23,450
+A shifted left 2 is                            234,500
+A shifted left 3 is                          2,345,000
+
+A shifted right 0 is                             2,345
+A shifted right 1 is                               234
+A shifted right 2 is                                23
+A shifted right 3 is                                 2
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                               234
+B is                                             2,345
+
+A = B                                            FALSE
+A <= B                                           TRUE
+A >= B                                           FALSE
+A < B                                            TRUE
+A > B                                            FALSE
+
+A + B is                                         2,579
+A - B is                                     Negative
+B - A is                                         2,111
+A * B is                                       548,730
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                                234
+A shifted left 1 is                              2,340
+A shifted left 2 is                             23,400
+A shifted left 3 is                            234,000
+
+A shifted right 0 is                               234
+A shifted right 1 is                                23
+A shifted right 2 is                                 2
+A shifted right 3 is                                  
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                             1,234
+B is                                                 0
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                         1,234
+A - B is                                         1,234
+B - A is                                     Negative
+A * B is                                             0
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                              1,234
+A shifted left 1 is                             12,340
+A shifted left 2 is                            123,400
+A shifted left 3 is                          1,234,000
+
+A shifted right 0 is                             1,234
+A shifted right 1 is                               123
+A shifted right 2 is                                12
+A shifted right 3 is                                 1
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                     1,000,000,000
+B is                                                 1
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                 1,000,000,001
+A - B is                                   999,999,999
+B - A is                                     Negative
+A * B is                                 1,000,000,000
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                      1,000,000,000
+A shifted left 1 is                     10,000,000,000
+A shifted left 2 is                    100,000,000,000
+A shifted left 3 is                  1,000,000,000,000
+
+A shifted right 0 is                     1,000,000,000
+A shifted right 1 is                       100,000,000
+A shifted right 2 is                        10,000,000
+A shifted right 3 is                         1,000,000
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                     9,999,999,999
+B is                                                 1
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                10,000,000,000
+A - B is                                 9,999,999,998
+B - A is                                     Negative
+A * B is                                 9,999,999,999
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                      9,999,999,999
+A shifted left 1 is                     99,999,999,990
+A shifted left 2 is                    999,999,999,900
+A shifted left 3 is                  9,999,999,999,000
+
+A shifted right 0 is                     9,999,999,999
+A shifted right 1 is                       999,999,999
+A shifted right 2 is                        99,999,999
+A shifted right 3 is                         9,999,999
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                       123,456,789
+B is                                       123,456,789
+
+A = B                                            TRUE
+A <= B                                           TRUE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            FALSE
+
+A + B is                                   246,913,578
+A - B is                                             0
+B - A is                                             0
+A * B is                        15,241,578,750,190,521
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                        123,456,789
+A shifted left 1 is                      1,234,567,890
+A shifted left 2 is                     12,345,678,900
+A shifted left 3 is                    123,456,789,000
+
+A shifted right 0 is                       123,456,789
+A shifted right 1 is                        12,345,678
+A shifted right 2 is                         1,234,567
+A shifted right 3 is                           123,456
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                       123,456,789
+B is                                       987,654,321
+
+A = B                                            FALSE
+A <= B                                           TRUE
+A >= B                                           FALSE
+A < B                                            TRUE
+A > B                                            FALSE
+
+A + B is                                 1,111,111,110
+A - B is                                     Negative
+B - A is                                   864,197,532
+A * B is                       121,932,631,112,635,269
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                        123,456,789
+A shifted left 1 is                      1,234,567,890
+A shifted left 2 is                     12,345,678,900
+A shifted left 3 is                    123,456,789,000
+
+A shifted right 0 is                       123,456,789
+A shifted right 1 is                        12,345,678
+A shifted right 2 is                         1,234,567
+A shifted right 3 is                           123,456
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                       987,654,321
+B is                                       123,456,789
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                 1,111,111,110
+A - B is                                   864,197,532
+B - A is                                     Negative
+A * B is                       121,932,631,112,635,269
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                        987,654,321
+A shifted left 1 is                      9,876,543,210
+A shifted left 2 is                     98,765,432,100
+A shifted left 3 is                    987,654,321,000
+
+A shifted right 0 is                       987,654,321
+A shifted right 1 is                        98,765,432
+A shifted right 2 is                         9,876,543
+A shifted right 3 is                           987,654
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                       123,456,789
+B is                                             9,876
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                   123,466,665
+A - B is                                   123,446,913
+B - A is                                     Negative
+A * B is                             1,219,259,248,164
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                        123,456,789
+A shifted left 1 is                      1,234,567,890
+A shifted left 2 is                     12,345,678,900
+A shifted left 3 is                    123,456,789,000
+
+A shifted right 0 is                       123,456,789
+A shifted right 1 is                        12,345,678
+A shifted right 2 is                         1,234,567
+A shifted right 3 is                           123,456
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                             9,876
+B is                                       123,456,789
+
+A = B                                            FALSE
+A <= B                                           TRUE
+A >= B                                           FALSE
+A < B                                            TRUE
+A > B                                            FALSE
+
+A + B is                                   123,466,665
+A - B is                                     Negative
+B - A is                                   123,446,913
+A * B is                             1,219,259,248,164
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                              9,876
+A shifted left 1 is                             98,760
+A shifted left 2 is                            987,600
+A shifted left 3 is                          9,876,000
+
+A shifted right 0 is                             9,876
+A shifted right 1 is                               987
+A shifted right 2 is                                98
+A shifted right 3 is                                 9
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                               123
+B is                                       987,654,321
+
+A = B                                            FALSE
+A <= B                                           TRUE
+A >= B                                           FALSE
+A < B                                            TRUE
+A > B                                            FALSE
+
+A + B is                                   987,654,444
+A - B is                                     Negative
+B - A is                                   987,654,198
+A * B is                               121,481,481,483
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                                123
+A shifted left 1 is                              1,230
+A shifted left 2 is                             12,300
+A shifted left 3 is                            123,000
+
+A shifted right 0 is                               123
+A shifted right 1 is                                12
+A shifted right 2 is                                 1
+A shifted right 3 is                                  
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                       987,654,321
+B is                                               123
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                                   987,654,444
+A - B is                                   987,654,198
+B - A is                                     Negative
+A * B is                               121,481,481,483
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                        987,654,321
+A shifted left 1 is                      9,876,543,210
+A shifted left 2 is                     98,765,432,100
+A shifted left 3 is                    987,654,321,000
+
+A shifted right 0 is                       987,654,321
+A shifted right 1 is                        98,765,432
+A shifted right 2 is                         9,876,543
+A shifted right 3 is                           987,654
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                           234,567,890,123,456,789
+B is                           234,567,890,123,456,789
+
+A = B                                            TRUE
+A <= B                                           TRUE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            FALSE
+
+A + B is                       469,135,780,246,913,578
+A - B is                                             0
+B - A is                                             0
+A * B is                     55,022,095,076,970,097,019,051,998,750,190,520
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is            234,567,890,123,456,789
+A shifted left 1 is          2,345,678,901,234,567,890
+A shifted left 2 is          23,456,789,012,345,678,900
+A shifted left 3 is          234,567,890,123,456,789,000
+
+A shifted right 0 is           234,567,890,123,456,789
+A shifted right 1 is            23,456,789,012,345,678
+A shifted right 2 is             2,345,678,901,234,567
+A shifted right 3 is               234,567,890,123,456
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                         145,783,938,376,183,726,484,784,672,343
+B is                         98,765,432,176,245,578,984,562
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                     145,784,037,141,615,902,730,363,656,905
+A - B is                     145,783,839,610,751,550,239,205,687,781
+B - A is                                     Negative
+A * B is                     14,398,413,678,078,938,883,399,807,834,971,832,073,945,215,825,368,766
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is          145,783,938,376,183,726,484,784,672,343
+A shifted left 1 is          1,457,839,383,761,837,264,847,846,723,430
+A shifted left 2 is          14,578,393,837,618,372,648,478,467,234,300
+A shifted left 3 is          145,783,938,376,183,726,484,784,672,343,000
+
+A shifted right 0 is         145,783,938,376,183,726,484,784,672,343
+A shifted right 1 is         14,578,393,837,618,372,648,478,467,234
+A shifted right 2 is         1,457,839,383,761,837,264,847,846,723
+A shifted right 3 is         145,783,938,376,183,726,484,784,672
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                         345,783,938,376,183,726,484,784,672,343
+B is                                                 0
+
+A = B                                            FALSE
+A <= B                                           FALSE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            TRUE
+
+A + B is                     345,783,938,376,183,726,484,784,672,343
+A - B is                     345,783,938,376,183,726,484,784,672,343
+B - A is                                     Negative
+A * B is                                             0
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is          345,783,938,376,183,726,484,784,672,343
+A shifted left 1 is          3,457,839,383,761,837,264,847,846,723,430
+A shifted left 2 is          34,578,393,837,618,372,648,478,467,234,300
+A shifted left 3 is          345,783,938,376,183,726,484,784,672,343,000
+
+A shifted right 0 is         345,783,938,376,183,726,484,784,672,343
+A shifted right 1 is         34,578,393,837,618,372,648,478,467,234
+A shifted right 2 is         3,457,839,383,761,837,264,847,846,723
+A shifted right 3 is         345,783,938,376,183,726,484,784,672
+
+
+-------------------------------------------------------------------------
+Enter two natural numbers.
+A is                                                 0
+B is                                                 0
+
+A = B                                            TRUE
+A <= B                                           TRUE
+A >= B                                           TRUE
+A < B                                            FALSE
+A > B                                            FALSE
+
+A + B is                                             0
+A - B is                                             0
+B - A is                                             0
+A * B is                                             0
+A / B is                                             0
+B / A is                                             0
+
+A shifted left 0 is                                  0
+A shifted left 1 is                                  0
+A shifted left 2 is                                  0
+A shifted left 3 is                                  0
+
+A shifted right 0 is                                 0
+A shifted right 1 is                                  
+A shifted right 2 is                                  
+A shifted right 3 is                                  
+

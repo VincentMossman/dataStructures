@@ -1,0 +1,76 @@
+V "GNAT Lib v2013"
+M P W=b
+A -fstack-check=specific
+A -gnatwu
+A -g
+A -gnato
+A -gnatwa
+A -gnat05
+A -mtune=generic
+A -march=pentiumpro
+P SS ZX
+
+RN
+RV NO_IO
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV SPARK
+
+U methcrypt%b		methcrypt.adb		225d74f1 NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W encryption_tools%s	encryption_tools.ads	encryption_tools.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-except.ads		20130417131018 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-inteio.ads		20130417131020 f64b89a4
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131020 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-tiinio.ads		20130417131022 aa04e5d6
+D a-unccon.ads		20130417131022 f9eb8f06
+D encryption_tools.ads	20140131064256 911813f6
+D interfac.ads		20130417131026 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D methcrypt.adb		20140131064158 7d631b77
+D system.ads		20130417131036 5fc8ae56
+D s-crtl.ads		20130417131028 dfcfca61
+D s-exctab.ads		20130417131028 66e51330
+D s-ficobl.ads		20130417131028 55a71d43
+D s-finmas.ads		20130417131028 b95bb341
+D s-finroo.ads		20130417131028 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-secsta.ads		20130417131032 eea35a36
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131032 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 14|1r6 2r6 14r4
+X 4 a-inteio.ads
+18K13*Integer_Text_IO[9|45] 14|1w10
+X 8 a-textio.ads
+49K13*Text_IO 471e16 14|2w10 14r8
+242U14*Put 14|14s16
+X 11 encryption_tools.ads
+3K9*Encryption_Tools 33e21 14|3w6 3r28
+5A9*Phrase<string><integer>
+6I9*Length<integer>
+18V13*Encrypt_Phrase{string} 14|11s18
+18a29 Item{5A9} 14|11r34
+19i29 Last{6I9} 14|12r34
+X 14 methcrypt.adb
+5U11*Methcrypt 5b11 16l5 16t14
+7a4 Fuck_Stick{string} 11m4 14r21
+

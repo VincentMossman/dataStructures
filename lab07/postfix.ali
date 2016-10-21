@@ -1,0 +1,206 @@
+V "GNAT Lib v2013"
+M P W=b
+A -fstack-check=specific
+A -gnatwu
+A -g
+A -gnato
+A -gnatwa
+A -gnat05
+A -gnatwc
+A -gnatwd
+A -gnatwf
+A -gnatwg
+A -gnatwk
+A -gnatwm
+A -gnatwr
+A -gnatwu
+A -gnatwv
+A -gnatww
+A -gnatwz
+A -gnaty3
+A -gnatya
+A -gnatyA
+A -gnatye
+A -gnatyi
+A -gnatyk
+A -gnatyl
+A -gnatyM110
+A -gnatyr
+A -gnatyt
+A -gnatyx
+A -mtune=generic
+A -march=pentiumpro
+P SS ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_NESTED_FINALIZATION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV SPARK
+
+U postfix%b		postfix.adb		48cd56db NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.maps%s	a-strmap.adb		a-strmap.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W ada.text_io.unbounded_io%s  a-tiunio.ads	a-tiunio.ali
+W stack%s		stack.adb		stack.ali
+W system%s		system.ads		system.ali
+W system.address_image%s  s-addima.adb		s-addima.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.exception_table%s  s-exctab.adb	s-exctab.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.standard_library%s  s-stalib.adb	s-stalib.ali
+W system.storage_elements%s  s-stoele.adb	s-stoele.ali
+W system.val_int%s	s-valint.adb		s-valint.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-charac.ads		20130417131018 2d3ec45b
+D a-chlat1.ads		20130417131018 2825df20
+D a-except.ads		20130417131018 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-inteio.ads		20130417131020 f64b89a4
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131020 2ca4ee37
+D a-string.ads		20130417131020 90ac6797
+D a-strmap.ads		20130417131020 9cb836fb
+D a-strunb.ads		20130417131020 3f91d4c5
+D a-suteio.ads		20130417131020 26d8e9aa
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-tiinio.ads		20130417131022 aa04e5d6
+D a-tiunio.ads		20130417131022 759c6b0c
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131026 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D postfix.adb		20140227173656 dcd1b7a3
+D stack.ads		20140227173658 b4e2e1ee
+D stack.adb		20140227173658 efd6eaef
+D system.ads		20130417131036 5fc8ae56
+D s-addima.ads		20130417131028 a1ec9d3a
+D s-atocou.ads		20130417131028 4a9c6cb4
+D s-atocou.adb		20130417131028 c864ec10
+D s-conca2.ads		20130417131028 fbd0f2fc
+D s-crtl.ads		20130417131028 dfcfca61
+D s-exctab.ads		20130417131028 66e51330
+D s-ficobl.ads		20130417131028 55a71d43
+D s-finmas.ads		20130417131028 b95bb341
+D s-finroo.ads		20130417131028 4ff27390
+D s-maccod.ads		20130417131030 0fbb7bce
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-secsta.ads		20130417131032 eea35a36
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-stposu.ads		20130417131032 ffeba1c5
+D s-stratt.ads		20130417131032 aedef97e
+D s-traent.ads		20130417131032 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-valint.ads		20130417131034 48a52a3f
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 20|1r6 1r36 2r6 2r36 3r6 3r36 3r53 4r6 4r36 4r53 34r28 108r42
+X 6 a-inteio.ads
+18K13*Integer_Text_IO[15|45] 20|1w10 1r40
+X 9 a-string.ads
+16K13*Strings 35e16 20|2r10 2r40 3r10 3r40 3r57 34r32 108r46
+31n32*Outside{31E9} 20|42r29
+33n24*Left{33E9} 20|108r54
+33n37*Both{33E9} 20|156r43
+X 10 a-strmap.ads
+38K21*Maps 412e21 20|2w18 2r48 34r40
+47A9*Character_Set(boolean) 20|34r45
+100V13*To_Set{47A9} 20|34s62
+X 11 a-strunb.ads
+76K21*Unbounded 489e26 20|3w18 3r65
+79R9*Unbounded_String 473e14 20|22r41 23r41 57r36 68r44 86r39 98r16 99r16
+. 144r17
+84V13*Length{natural} 20|109s20 157s17
+100V13*To_String{string} 20|123s38
+159U14*Unbounded_Slice 20|46s7
+160r7 Source{79R9} 20|46r24
+161r7 Target{79R9} 20|47r24
+162i7 Low{positive} 20|48r24
+163i7 High{natural} 20|49r24
+170V14*"="{boolean} 20|63s19 63s33 63s47 63s62 74s13 76s16 78s16
+305U14*Find_Token 20|40s7
+306r7 Source{79R9} 20|40r19
+307a7 Set{10|47A9} 20|41r19
+308e7 Test{9|31E9} 20|42r19
+309i7 First{positive} 20|43r19
+310i7 Last{natural} 20|44r19
+373U14*Delete 20|51s7
+374r7 Source{79R9} 20|51r15
+375i7 From{positive} 20|52r15
+376i7 Through{natural} 20|53r15
+382U14*Trim 20|108s10 156s7
+383r7 Source{79R9} 20|108r16 156r13
+384e7 Side{9|33E9} 20|108r34 156r35
+X 14 a-textio.ads
+49K13*Text_IO 471e16 20|4r10 4r40 4r57
+73I12*Field{integer}
+166U14*New_Line 20|173s7
+242U14*Put 20|166s10 170s13
+263U14*Put_Line 20|152s7
+X 15 a-tiinio.ads
+65U14*Put 20|167s10[6|18]
+66i7 Item{integer} 20|167r15[6|18]
+67i7 Width{14|73I12} 20|167r31[6|18]
+X 16 a-tiunio.ads
+25K21*Unbounded_IO 61e29 20|4w18 4r65
+32U14*Put=34:42 20|160s7
+57U14*Get_Line=59:42 20|153s7
+X 20 postfix.adb
+6U11*Postfix 6b11 175l5 175t12
+15N4 Operand_Bound 95r61
+17X4 INVALID_EXPRESSION 132r16 138r16 140r16 169r15
+19K12 Integer_Stack[21|3] 95r23 139r12
+22U14 Take_Item 22b14 22=25 23<25 54l8 54t17 111s10
+22r25 Source{11|79R9} 40r29 46r34 51m26 111r21
+23r25 Item{11|79R9} 47m34 111r39
+34a7 Blank_Set{10|47A9} 41r29
+36i7 First{positive} 43m29 48r34 52r26
+37i7 Last{natural} 44m29 49r34 53r26
+57V13 Is_Operator{boolean} 57b13 57>26 64l8 64t19 112s13
+57r26 Item{11|79R9} 63r14 63r28 63r42 63r57
+67V13 Evaluate_Operation{integer} 67b13 67>33 68>33 69>33 83l8 83t26 117s23
+67i33 Left{integer} 75r17 77r17 79r17 81r17
+68r33 Op{11|79R9} 74r10 76r13 78r13
+69i33 Right{integer} 75r24 77r24 79r24 81r24
+86V13 Evaluate{integer} 86b13 86>23 141l8 141t16 165s20
+86r23 Expression{11|79R9} 103r17
+95r7 Operand_Stack{21|9R9[19]} 114m13 114r13 115m13 115r13 118m13 118r13
+. 124m13 124r13 129m7 129r7 131r14
+97i7 Result{integer} 104m7 117m13 118r33 123m13 124r33 129m26 134r17
+98r7 Buffer{11|79R9} 103m7 108m26 108r26 109r28 111m31 111r31
+99r7 Item{11|79R9} 111m47 112r26 117r49 123r49
+100i7 Left{integer} 115m32 117r43
+101i7 Right{integer} 114m32 117r55
+144r4 Expression{11|79R9} 153m17 156m23 156r23 157r25 160r12 165r30
+145i4 Result{integer} 165m10 167r23
+163q7 Exception_Block 172l11 172e26
+X 21 stack.ads
+2+9 Element_Type 20|19r40
+3k9*Stack 20|5w6 19r33 21|84e10
+9R9 Stack_Type 20|95r37[19]
+11X4 UNDERFLOW 20|139r26[19]
+45V13 Empty{boolean} 20|131s28[19]
+58U14 Push 20|118s27[19] 124s27[19]
+66U14 Pop 20|114s27[19] 115s27[19] 129s21[19]
+

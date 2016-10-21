@@ -1,0 +1,64 @@
+V "GNAT Lib v2013"
+A -gnatwu
+A -gnat05
+A -gnatc
+A -mtune=generic
+A -march=pentiumpro
+P NO ZX
+
+RN
+RV NO_FINALIZATION
+RV NO_ELABORATION_CODE
+RV SPARK
+
+U unbounded_queue%s	unbounded_queue.ads	257482c2 EE OO PK GE
+W ada%s			ada.ads			ada.ali
+W ada.finalization%s	a-finali.adb		a-finali.ali
+
+D ada.ads		20130417131022 3ffc8e18
+D a-finali.ads		20130417131020 52ecdc1b
+D system.ads		20130417131036 5fc8ae56
+D s-finroo.ads		20130417131028 4ff27390
+D unbounded_queue.ads	20140327154746 77985ed9
+X 1 ada.ads
+16K9*Ada 19e8 5|1r6 10r27 87r27
+X 2 a-finali.ads
+40K13*Finalization 73e21 5|1w10 10r31 87r31
+55H9*Limited_Controlled 71e55 5|10r44 87r44
+58U14*Initialize<4|44p14>
+X 4 s-finroo.ads
+42U14*Adjust
+X 5 unbounded_queue.ads
+3+9 Element_Type 26r54 47r38 56r38 83r17
+4k9*Unbounded_Queue 3z9 95l5 95e20
+10R9*Queue_Type<2|55R9> 2|58P14 4|42p14 5|17p13 17r30 25p13 25r37 40p14 40r36
+. 46p14 46r38 55p14 55r38 65p13 65r30 72p13 72r31 87c9 91e17 93r51
+12X4*OVERFLOW
+13X4*UNDERFLOW
+14X4*QUEUE_CONSTRAINT_ERROR
+17V13*Size{natural} 17>19
+17r19 Queue{10R9}
+25V13*Value_At{3+9} 25>23 26>23
+25r23 Queue{10R9}
+26i23 Position{positive}
+40U14*Clear 40=21 93r71
+40r21 Queue{10R9}
+46U14*Enqueue 46=23 47>23
+46r23 Queue{10R9}
+47*23 Item{3+9}
+55U14*Dequeue 55=23 56<23
+55r23 Queue{10R9}
+56*23 Item{3+9}
+65V13*Full{boolean} 65>19
+65r19 Queue{10R9}
+72V13*Empty{boolean} 72>20
+72r20 Queue{10R9}
+79R9 Node_Type 80r28 81c9 85e17
+80P9 Node_Ptr(79R9) 84r17 89r17 90r17
+83*10 Info{3+9}
+84p10 Next{80P9}
+89p9 Front{80P9}
+90p9 Rear{80P9}
+93U25 Finalize=93:71<2|59p14>
+93r35 Object{10R9}
+

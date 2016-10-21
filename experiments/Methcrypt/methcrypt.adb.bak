@@ -1,0 +1,10 @@
+with Ada.Integer_Text_IO;
+with Ada.Text_IO;
+
+procedure Methcrypt is
+
+begin
+
+
+
+end Methcrypt;
